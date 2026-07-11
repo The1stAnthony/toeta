@@ -27,6 +27,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        {/* AdSense script in <head> so crawlers see it in the raw HTML */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5976607298154940"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         {/* Google Analytics */}
         {GA_ID && (
@@ -45,14 +53,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Script>
           </>
         )}
-
-        {/* Google AdSense — enables both Auto Ads and manual ad units */}
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5976607298154940"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
 
         <Nav />
         {children}
