@@ -1,75 +1,75 @@
-# Toeta V.4.9.7 Alpha
-For all the chefs new and old who are finding it hard to decide what to eat for dinner today, Toeta is the solution for you. Giving you daily recipes that you can cook!
+# Toeta
 
-## Get a recipe, Now!
-https://toeta.herokuapp.com/main.html
-![snapshot](./public/snapshot.png)
+> One great meal, every day. No decision fatigue.
 
-## Index:
-1. [Checklist](#checklist)
-    1. [MVP Todo:](#mvp-todo)
-    2. [Potential Features:](#potential-features)
-    3. [Previous Updates:](#previous-updates)
-2. [Info](#info)
-    1. [Environment Setup:](#environment-setup)
-3. [Conclusion](#conclusion)
+Toeta is a daily meal suggestion app. Free users get one meal per day plus a dessert roll, powered by TheMealDB. Premium users (coming soon) get personalized, diet-filtered meals via Spoonacular.
 
-___
-## Checklist
+Built by [@The1stAnthony](https://github.com/The1stAnthony)
 
-### MVP TODO:
-- Setup 
-    - [x] Name it
-    - [x] complete readme
-- Creating firm ideas
-    - [x] Complete Research on recipes APIs
-    - [x] Create 5-7 Wire-frame for website design
-    - [x] make it live
-    - [x] ~~**IF NO API** create a database filled with recipes using SQL~~ 
-- Most valuable parts
-    - [x] Collect and return a recipe from the API/DB
-    - [x] Make the returned recipe random per day.
-    - [x] create a way to see upcoming recipes for tests
-    - [] Let users Favorite recipes, these meals should show up again in the near future. otherwise should keep random recipes
-    - [] Let users Delete recipes, these meals should never show up again in the future.
-    - [] Let users Save for later, the recipe should update to be tomorrows meal if the user wants to go out to eat today instead. Other meals should be pushed to the next days as well, and we can remove the last meal off the query.
-    - [√] Design the heck out of it with pretty colors and such *In the Works*
-    - [x] **Stretch** Let users see all their planned recipes for that week so that they can shop beforehand, while also highlighting the day they are on.
-    - [] **Stretch** Deleted recipes can be re-added to the queue 
-    - [] **Stretch** Favored recipes should be seen in a list
-    - [] **Stretch** Add a skip button to skip a meal.
-### Potential Features:
-- Filtered results
-    - ~~[] create a survey for new users to see~~
-    - [x] render results based on diets (Vegetarian, Vegan, Halal, etc.)
-    - [x] render results based on allergies (Soy, Shellfish, Nuts, etc.)
-    - ~~[] render results based on Calorie intake (I'm on a 2,000 Calorie diet)~~
-    - [] **Stretch** create nutrition plan for consumers to only eat meals that matches or hardly damages this plan. (this can be overruled) https://docs.google.com/presentation/d/1B-ndEUghpgaYZpdyKxJW3hag4hCzp99vHSih75eqzzw/edit#slide=id.g25a3edb0c6_0_111 
-- Personalization
-    - [√] Login and Authentication *needs work*
-    - [] Save info to profiles, rather than browser, so that information isn't cleared with cache.
-    - [] Let users create their own meals that they can share with the world! Grandma's home made cookies here we come.
-    - [] **Stretch** Let premium users decorate their website. drag and drop with stickers, and template backgrounds
+---
 
-### Previous Updates:
-{Last Update: 10/16/21}
-- 4.6.2
-    - Too much! I never kept track of everything that was done before. But we can start with what I do remember (from newest to oldest)
-    - made it a bit more pretty
-    - Profile page skeleton completed with allergin survey
-    - weekly meals generated
-    - basic password and email verification
-    - time tracking enabled so that you ony get one recipe a day
-    - skeleton for the site was made using api spoonacular for  generating  single recipes
-    - logo was created
+## Running Locally
 
-___
-## Info
+```bash
+npm install
+npm run dev -- --port 3001
+```
 
-### Environment Setup
-- No environment quite yet
+Open [http://localhost:3001](http://localhost:3001)
 
-___
-## Conclusion
-If you have an idea or want to recommend a feature, please do so in feature_requests.md 
-Thanks for checking this out. Feel free to leave feedback, and share!
+---
+
+## Environment Variables
+
+Create a `.env.local` file in the project root:
+
+```env
+# Google Analytics — get your ID from analytics.google.com
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+```
+
+---
+
+## Launch Checklist
+
+### Live & Done
+- [x] Daily meal card (TheMealDB, free, no rate limits)
+- [x] Dessert random roll
+- [x] "Shop Ingredients" affiliate button (Instacart)
+- [x] Ad slots (banner + rectangle, ready for AdSense tags)
+- [x] Buy Me a Coffee link
+- [x] Google Analytics wired up (needs Measurement ID)
+- [x] Beta badge, Toeta branding
+- [x] Daily meal caching (localStorage — one meal per day, no repeat API calls)
+
+### Needs Action Before Launch
+- [ ] **Add GA4 Measurement ID** — create property at analytics.google.com, add `NEXT_PUBLIC_GA_ID` to `.env.local` and hosting env vars
+- [ ] **Get domain** — toeta.app (check Cloudflare Registrar)
+- [ ] **Deploy** — Vercel recommended (free tier, zero config for Next.js)
+
+### Monetization — In Progress
+- [ ] **Affiliate: Instacart** — sign up at impact.com, search "Instacart", replace `YOUR_TAG_HERE` in `components/MealCard/MealCard.tsx`
+- [ ] **Affiliate: HelloFresh** — sign up at impact.com, $10–20 per signup commission
+- [ ] **Affiliate: EveryPlate** — sign up at impact.com, similar meal kit commission
+- [ ] **Google AdSense** — apply at google.com/adsense *after* site is live with real traffic + Analytics data; swap placeholder divs in `components/AdSlot/AdSlot.tsx` with your `<ins>` tags
+
+### Future (Post-Launch)
+- [ ] Supabase auth (sign up / sign in)
+- [ ] User profiles saved server-side (diet preferences, allergies)
+- [ ] Premium tier — Spoonacular API, personalized & filtered meals
+- [ ] Favorites, skip, save-for-later recipe actions
+- [ ] React Native mobile app (shared logic with this codebase)
+
+---
+
+## Stack
+
+| Layer | Tech |
+|---|---|
+| Frontend | Next.js 16 + TypeScript + SCSS Modules |
+| Meal Data | TheMealDB (free, no key needed) |
+| Premium Meals | Spoonacular (future) |
+| Auth / DB | Supabase (future) |
+| Payments | Stripe (future) |
+| Hosting | Vercel (recommended) or self-hosted |
+| Analytics | Google Analytics 4 |

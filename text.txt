@@ -1,6 +1,0 @@
-Having trouble puushing updates?
-1. Go to heroku and delete build pack
-2. reset dynos
-3. $heroku reset
-4. $git commit --allow-empty -m "empty commit"
-5. $gp git push heroku master
