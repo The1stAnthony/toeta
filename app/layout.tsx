@@ -4,13 +4,24 @@ import Nav from "@/components/Nav/Nav";
 import Footer from "@/components/Footer/Footer";
 import "@/styles/globals.scss";
 
-// TODO: replace with your real GA4 Measurement ID from analytics.google.com
-// Format: G-XXXXXXXXXX
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? "";
 
 export const metadata: Metadata = {
   title: "Toeta — What's for dinner?",
   description: "One great meal suggestion every day. No decision fatigue.",
+  metadataBase: new URL("https://toeta.app"),
+  openGraph: {
+    title: "Toeta — What's for dinner?",
+    description: "One great meal suggestion every day. No decision fatigue.",
+    url: "https://toeta.app",
+    siteName: "Toeta",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Toeta — What's for dinner?",
+    description: "One great meal suggestion every day. No decision fatigue.",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -3,7 +3,7 @@
 // Dashboard — client component so we can check localStorage for today's cached meal.
 // This keeps the "one meal per day" concept intact without hitting the API on every refresh.
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Meal } from "@/types/meal";
 import MealCard from "@/components/MealCard/MealCard";
 import DessertRoll from "@/components/DessertRoll/DessertRoll";
@@ -22,7 +22,13 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  // Prevents React Strict Mode's double-invoke in dev from firing two API calls
+  const fetched = useRef(false);
+
   useEffect(() => {
+    if (fetched.current) return;
+    fetched.current = true;
+
     const today = todayString();
     const cachedDate = localStorage.getItem(STORAGE_KEY_DATE);
     const cachedMeal = localStorage.getItem(STORAGE_KEY_MEAL);
