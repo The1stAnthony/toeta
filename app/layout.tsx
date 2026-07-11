@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        {/* Google Analytics — only loads when GA_ID is set */}
+        {/* Google Analytics */}
         {GA_ID && (
           <>
             <Script
@@ -45,6 +45,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Script>
           </>
         )}
+
+        {/* Google AdSense — enables both Auto Ads and manual ad units */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5976607298154940"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
 
         <Nav />
         {children}
