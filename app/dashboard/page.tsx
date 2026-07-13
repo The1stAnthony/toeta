@@ -62,17 +62,26 @@ export default function DashboardPage() {
         <p className={styles.sub}>One great meal, every day. No decision fatigue.</p>
       </section>
 
-      <AdSlot id="ad-top" size="banner" />
+      {/* Horizontal ad — sits between hero and meal cards */}
+      <AdSlot id="ad-top" size="banner" slotId="3990401804" />
 
       <section className={styles.cards}>
         {loading && <p className={styles.loading}>Finding your meal...</p>}
         {error && <p className={styles.errorMsg}>Something went wrong. Try refreshing.</p>}
         {meal && <MealCard meal={meal} label="Today's Meal" />}
-        {meal && <DessertRoll />}
+
+        {/* Vertical ad — sits alongside the dessert roll on wider screens */}
+        {meal && (
+          <div className={styles.sideColumn}>
+            <AdSlot id="ad-side" size="rectangle" slotId="5303483471" />
+            <DessertRoll />
+          </div>
+        )}
       </section>
 
+      {/* Square ad — below the cards */}
       <div className={styles.adBottom}>
-        <AdSlot id="ad-bottom" size="rectangle" />
+        <AdSlot id="ad-bottom" size="rectangle" slotId="4295960467" />
       </div>
 
       <div className={styles.wave}>
