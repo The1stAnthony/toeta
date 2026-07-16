@@ -74,6 +74,21 @@
   width: 100%;
 }
 
+.featureLink {
+  display: block;
+  border-radius: var(--radius-md);
+  transition: transform 0.15s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+
+    .feature {
+      box-shadow: var(--shadow-hover);
+      border-color: var(--color-primary);
+    }
+  }
+}
+
 .feature {
   background: var(--color-surface);
   border-radius: var(--radius-md);

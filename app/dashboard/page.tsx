@@ -4,11 +4,53 @@
 // This keeps the "one meal per day" concept intact without hitting the API on every refresh.
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import type { Meal } from "@/types/meal";
 import MealCard from "@/components/MealCard/MealCard";
 import DessertRoll from "@/components/DessertRoll/DessertRoll";
 import AdSlot from "@/components/AdSlot/AdSlot";
+import DiceLoader from "@/components/DiceLoader/DiceLoader";
 import styles from "./dashboard.module.scss";
+
+function playMealReady() {
+  try {
+    const ctx = new AudioContext();
+    const now = ctx.currentTime;
+    // Quick dice-clatter (3 noise ticks), then a bright ding
+    for (let i = 0; i < 3; i++) {
+      const t = now + i * 0.07;
+      const bufSize = Math.floor(ctx.sampleRate * 0.018);
+      const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let j = 0; j < bufSize; j++) data[j] = (Math.random() * 2 - 1) * (1 - j / bufSize);
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.2, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.018);
+      src.connect(g);
+      g.connect(ctx.destination);
+      src.start(t);
+    }
+    // Ding: two ascending notes
+    [[880, 0.22], [1318.5, 0.37]].forEach(([freq, delay]) => {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      const t = now + delay;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.25, t + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+      osc.connect(g);
+      g.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.45);
+    });
+  } catch {
+    // AudioContext blocked by browser — silent fail is fine
+  }
+}
 
 const STORAGE_KEY_MEAL = "toeta-meal";
 const STORAGE_KEY_DATE = "toeta-meal-date";
@@ -50,6 +92,7 @@ export default function DashboardPage() {
         localStorage.setItem(STORAGE_KEY_DATE, today);
         localStorage.setItem(STORAGE_KEY_MEAL, JSON.stringify(data.meal));
         setMeal(data.meal);
+        playMealReady();
       })
       .catch(() => setError(true))
       .finally(() => setLoading(false));
@@ -66,7 +109,7 @@ export default function DashboardPage() {
       <AdSlot id="ad-top" size="banner" slotId="3990401804" />
 
       <section className={styles.cards}>
-        {loading && <p className={styles.loading}>Finding your meal...</p>}
+        {loading && <DiceLoader />}
         {error && <p className={styles.errorMsg}>Something went wrong. Try refreshing.</p>}
         {meal && <MealCard meal={meal} label="Today's Meal" />}
 
@@ -99,6 +142,11 @@ export default function DashboardPage() {
           TheMealDB
         </a>
       </p>
+
+      {/* Floating wheel button — bottom right */}
+      <Link href="/wheel" className={styles.wheelBtn}>
+        🎡 Not feeling it?
+      </Link>
     </main>
   );
 }

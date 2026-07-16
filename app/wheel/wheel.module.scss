@@ -1,0 +1,124 @@
+.main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1.5rem 4rem;
+  gap: 2rem;
+}
+
+.header {
+  text-align: center;
+}
+
+.heading {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.sub {
+  margin-top: 0.5rem;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
+
+.wheelWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Downward-pointing triangle fixed at the top center of the wheel
+.pointer {
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 22px solid var(--color-primary);
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.canvas {
+  width: 100%;
+  aspect-ratio: 1;
+  display: block;
+  border-radius: 50%;
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 1.25rem 2.5rem;
+  text-align: center;
+  animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.85); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+.resultLabel {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.resultCuisine {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.spinBtn {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  transition: background 0.2s ease, transform 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: var(--color-primary-dark);
+    transform: scale(1.03);
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+}
+
+.backLinks {
+  display: flex;
+  gap: 2rem;
+  margin-top: 0.5rem;
+}
+
+.backLink {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}

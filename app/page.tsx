@@ -36,6 +36,13 @@ export default function HomePage() {
           <h2>Roll for dessert</h2>
           <p>Feeling something sweet? Take a chance and see what the night brings.</p>
         </div>
+        <Link href="/wheel" className={styles.featureLink}>
+          <div className={styles.feature}>
+            <span className={styles.icon}>🎡</span>
+            <h2>Spin the wheel</h2>
+            <p>Can&apos;t decide what cuisine to try? Spin for a random food culture.</p>
+          </div>
+        </Link>
         <div className={styles.feature}>
           <span className={styles.icon}>🥗</span>
           <h2>Built around you</h2>
