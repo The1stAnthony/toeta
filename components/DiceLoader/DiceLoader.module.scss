@@ -75,6 +75,13 @@ $half: 39px;
   filter: drop-shadow(0 10px 8px rgba(0,0,0,0.3));
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .cubeA, .cubeB {
+    animation: none;
+    transform: rotateX(20deg) rotateY(30deg);
+  }
+}
+
 // Die A: longer arc, two bounces
 @keyframes tumbleA {
   0%   { transform: rotateX(0deg)    rotateY(0deg)   translateY(0px);   }

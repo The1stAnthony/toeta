@@ -270,21 +270,33 @@ export default function WheelPage() {
           width={SIZE}
           height={SIZE}
           className={styles.canvas}
+          role="img"
+          aria-label="Cuisine spin wheel"
         />
       </div>
 
-      {result && (
-        <div className={styles.result}>
-          {result === "🎲 Mix It Up!" ? (
-            <span className={styles.resultCuisine}>{result}</span>
-          ) : (
-            <>
-              <span className={styles.resultLabel}>Tonight you&apos;re having</span>
+      <div aria-live="polite" aria-atomic="true">
+        {result && (
+          <div className={styles.result}>
+            {result === "🎲 Mix It Up!" ? (
               <span className={styles.resultCuisine}>{result}</span>
-            </>
-          )}
-        </div>
-      )}
+            ) : (
+              <>
+                <span className={styles.resultLabel}>Tonight you&apos;re having</span>
+                <span className={styles.resultCuisine}>{result}</span>
+                {!result.endsWith(" Mix") && (
+                  <Link
+                    href={`/cuisine/${result.toLowerCase().replace(/[/\s]+/g, "-").replace(/[^a-z0-9-]/g, "")}`}
+                    className={styles.cuisineLink}
+                  >
+                    Explore {result} cuisine →
+                  </Link>
+                )}
+              </>
+            )}
+          </div>
+        )}
+      </div>
 
       <button className={styles.spinBtn} onClick={spin} disabled={spinning}>
         {spinning ? "Spinning..." : "🎡 Spin!"}

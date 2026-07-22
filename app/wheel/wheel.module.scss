@@ -72,6 +72,10 @@
   to   { transform: scale(1);    opacity: 1; }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .result { animation: none; }
+}
+
 .resultLabel {
   font-size: 0.85rem;
   color: var(--color-text-muted);
@@ -84,6 +88,19 @@
   font-size: 1.9rem;
   font-weight: 800;
   color: var(--color-primary);
+}
+
+.cuisineLink {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-top: 0.35rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 .spinBtn {

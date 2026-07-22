@@ -16,10 +16,30 @@
   color: var(--color-text-muted);
 }
 
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
 .copyright {
   a {
     color: var(--color-text);
     font-weight: 600;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}
+
+.links {
+  display: flex;
+  gap: 1rem;
+
+  a {
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
 
     &:hover {
       color: var(--color-primary);
