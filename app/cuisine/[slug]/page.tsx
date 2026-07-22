@@ -69,8 +69,18 @@ export default async function CuisinePage({
   const mapsUrl = `https://www.google.com/maps/search/${encodeURIComponent(cuisine.searchTerm + " restaurants")}`;
   const yelpUrl = `https://www.yelp.com/search?find_desc=${encodeURIComponent(cuisine.searchTerm + " restaurants")}`;
 
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://toeta.app" },
+      { "@type": "ListItem", position: 2, name: `${cuisine.name} Cuisine`, item: `https://toeta.app/cuisine/${cuisine.slug}` },
+    ],
+  };
+
   return (
     <main className={styles.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       {/* Hero */}
       <section className={styles.hero}>
         <span className={styles.emoji} aria-hidden="true">{cuisine.emoji}</span>

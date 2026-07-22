@@ -21,7 +21,7 @@ export default function HomePage() {
           eat and what you actually like.
         </p>
         <div className={styles.ctas}>
-          <Link href="/signup" className={styles.btnPrimary}>
+          <Link href="/dashboard" className={styles.btnPrimary}>
             Get Started — It&apos;s Free
           </Link>
           <Link href="/dashboard" className={styles.btnSecondary}>
@@ -51,7 +51,7 @@ export default function HomePage() {
         <div className={styles.feature}>
           <span className={styles.icon}>🥗</span>
           <h2>Built around you</h2>
-          <p>Set your diet and allergies once. Never see a recipe you can&apos;t eat.</p>
+          <p>Diet filters, allergen profiles, and budget-friendly meals — coming with Premium.</p>
         </div>
       </section>
 

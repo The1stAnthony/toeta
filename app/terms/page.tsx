@@ -4,6 +4,7 @@ import LegalPage from "@/components/LegalPage/LegalPage";
 export const metadata: Metadata = {
   title: "Terms of Service | Toeta",
   description: "Terms of Service for Toeta — free daily meal suggestion app at toeta.app.",
+  alternates: { canonical: "https://toeta.app/terms" },
 };
 
 export default function TermsPage() {

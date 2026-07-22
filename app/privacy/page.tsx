@@ -4,6 +4,7 @@ import LegalPage from "@/components/LegalPage/LegalPage";
 export const metadata: Metadata = {
   title: "Privacy Policy | Toeta",
   description: "How Toeta collects and uses data. We keep it minimal — no accounts, no selling your information.",
+  alternates: { canonical: "https://toeta.app/privacy" },
 };
 
 export default function PrivacyPage() {

@@ -66,6 +66,24 @@ textarea {
   font-size: 1rem;
 }
 
+// Skip-to-content link — visible only on keyboard focus
+.skip-link {
+  position: absolute;
+  top: -9999px;
+  left: 0;
+  padding: 0.6rem 1.25rem;
+  background: var(--color-primary);
+  color: var(--color-text);
+  font-weight: 700;
+  font-size: 0.875rem;
+  z-index: 9999;
+  border-radius: 0 0 var(--radius-sm) 0;
+
+  &:focus {
+    top: 0;
+  }
+}
+
 // Ad slots — swap .ad-placeholder for real AdSense <ins> tags when approved
 .ad-slot {
   width: 100%;

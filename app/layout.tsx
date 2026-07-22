@@ -168,6 +168,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
+        {/* Skip navigation — keyboard accessibility */}
+        <a href="#main-content" className="skip-link">Skip to main content</a>
+
         {/* Google Analytics */}
         {GA_ID && (
           <>
@@ -187,7 +190,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         )}
 
         <Nav />
-        {children}
+        <div id="main-content" tabIndex={-1}>
+          {children}
+        </div>
         <Footer />
       </body>
     </html>

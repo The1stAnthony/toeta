@@ -19,7 +19,7 @@ function instacartUrl(mealName: string) {
 
 export default function MealCard({ meal, label = "Today's Meal" }: MealCardProps) {
   return (
-    <article className={styles.card}>
+    <article className={styles.card} aria-labelledby={`meal-name-${meal.id}`}>
       <p className={styles.label}>{label}</p>
 
       <div className={styles.imageWrapper}>
@@ -33,7 +33,7 @@ export default function MealCard({ meal, label = "Today's Meal" }: MealCardProps
       </div>
 
       <div className={styles.body}>
-        <h2 className={styles.name}>{meal.name}</h2>
+        <h2 className={styles.name} id={`meal-name-${meal.id}`}>{meal.name}</h2>
 
         <div className={styles.meta}>
           <span className={styles.tag}>{meal.category}</span>

@@ -7,6 +7,15 @@ export const metadata: Metadata = {
   description:
     "Toeta was built 5 years ago in college by Anthony Sean Protho to solve one simple problem: figuring out what to eat. Here's the story.",
   alternates: { canonical: "https://toeta.app/about" },
+  openGraph: {
+    title: "About Toeta — The Story Behind the App",
+    description:
+      "Anthony Sean Protho built Toeta in college when he couldn't decide what to eat. Here's why it exists and where it's going.",
+    url: "https://toeta.app/about",
+    siteName: "Toeta",
+    type: "website",
+    images: [{ url: "/cover.png", width: 1200, height: 630, alt: "Toeta — Free Daily Meal Idea Generator" }],
+  },
 };
 
 export default function AboutPage() {
