@@ -31,3 +31,44 @@
   align-self: center;
 }
 
+.links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  @media (max-width: 520px) {
+    gap: 0;
+
+    .link { display: none; }
+  }
+}
+
+.link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    color: var(--color-text);
+    background: var(--color-bg);
+  }
+}
+
+.cta {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: var(--color-primary);
+    color: #fff;
+  }
+}
+

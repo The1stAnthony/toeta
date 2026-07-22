@@ -1,17 +1,20 @@
+import Image from "next/image";
 import type { Meal } from "@/types/meal";
 import styles from "./MealCard.module.scss";
 
-// TODO: replace with your Instacart affiliate tag once approved at instacart.com/affiliates
+// Replace with your Instacart affiliate tag from impact.com once approved
 const INSTACART_AFFILIATE_TAG = "YOUR_TAG_HERE";
+const hasAffiliateTag = INSTACART_AFFILIATE_TAG !== "YOUR_TAG_HERE";
 
 interface MealCardProps {
   meal: Meal;
-  label?: string; // e.g. "Today's Meal" or "Dessert"
+  label?: string;
 }
 
 function instacartUrl(mealName: string) {
   const query = encodeURIComponent(mealName);
-  return `https://www.instacart.com/store/s?k=${query}&affiliate=${INSTACART_AFFILIATE_TAG}`;
+  const base = `https://www.instacart.com/store/s?k=${query}`;
+  return hasAffiliateTag ? `${base}&affiliate=${INSTACART_AFFILIATE_TAG}` : base;
 }
 
 export default function MealCard({ meal, label = "Today's Meal" }: MealCardProps) {
@@ -20,8 +23,13 @@ export default function MealCard({ meal, label = "Today's Meal" }: MealCardProps
       <p className={styles.label}>{label}</p>
 
       <div className={styles.imageWrapper}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={meal.imageUrl} alt={meal.name} className={styles.image} />
+        <Image
+          src={meal.imageUrl}
+          alt={meal.name}
+          fill
+          sizes="(max-width: 600px) 100vw, 540px"
+          className={styles.image}
+        />
       </div>
 
       <div className={styles.body}>

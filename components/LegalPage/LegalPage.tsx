@@ -1,9 +1,10 @@
+import type { ReactNode } from "react";
 import styles from "./LegalPage.module.scss";
 
 interface Props {
   title: string;
   updated: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export default function LegalPage({ title, updated, children }: Props) {

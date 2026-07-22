@@ -1,7 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import styles from "./signup.module.scss";
 
-export const metadata = { title: "Coming Soon — Toeta" };
+export const metadata: Metadata = {
+  title: "Premium Coming Soon | Toeta",
+  description: "Personalized diet profiles, allergen filters, and budget-friendly meal suggestions — coming soon to Toeta.",
+};
 
 export default function SignupPage() {
   return (
