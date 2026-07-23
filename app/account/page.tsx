@@ -8,7 +8,7 @@ import ClearHistoryButton from "./ClearHistoryButton";
 import styles from "./account.module.scss";
 
 export const metadata: Metadata = {
-  title: "Account | Toeta",
+  title: "Account",
   description: "Manage your Toeta account and subscription.",
 };
 
@@ -62,14 +62,11 @@ export default async function AccountPage() {
         <hr className={styles.divider} />
 
         {isPremium && (
-          <>
-            <PreferencesForm
-              userId={user.id}
-              initialDiet={profile?.diet ?? ""}
-              initialAllergens={profile?.allergens ?? ""}
-            />
-            <hr className={styles.divider} />
-          </>
+          <PreferencesForm
+            userId={user.id}
+            initialDiet={profile?.diet ?? ""}
+            initialAllergens={profile?.allergens ?? ""}
+          />
         )}
 
         <hr className={styles.divider} />

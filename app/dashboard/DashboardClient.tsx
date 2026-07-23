@@ -57,9 +57,16 @@ function FreeDashboard({ premiumSuccess }: { premiumSuccess?: boolean }) {
     const cachedMeal = localStorage.getItem(STORAGE_KEY_MEAL);
 
     if (cachedDate === today && cachedMeal) {
-      setMeal(JSON.parse(cachedMeal));
-      setLoading(false);
-      return;
+      try {
+        const parsed = JSON.parse(cachedMeal);
+        if (parsed) {
+          setMeal(parsed);
+          setLoading(false);
+          return;
+        }
+      } catch {
+        // corrupted cache — fall through to fetch
+      }
     }
 
     fetch("/api/meal")
@@ -68,6 +75,7 @@ function FreeDashboard({ premiumSuccess }: { premiumSuccess?: boolean }) {
         return res.json();
       })
       .then((data) => {
+        if (!data.meal) throw new Error("No meal returned");
         localStorage.setItem(STORAGE_KEY_DATE, today);
         localStorage.setItem(STORAGE_KEY_MEAL, JSON.stringify(data.meal));
         setMeal(data.meal);
@@ -94,7 +102,7 @@ function FreeDashboard({ premiumSuccess }: { premiumSuccess?: boolean }) {
 
       <section className={styles.cards}>
         {loading && <DiceLoader />}
-        {error && <p className={styles.errorMsg}>Something went wrong. Try refreshing.</p>}
+        {error && <p className={styles.errorMsg} role="alert">Something went wrong. Try refreshing.</p>}
         {meal && <MealCard meal={meal} label="Today's Meal" />}
 
         {meal && (
@@ -118,7 +126,7 @@ function FreeDashboard({ premiumSuccess }: { premiumSuccess?: boolean }) {
       </div>
 
       <div className={styles.wave}>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
           <path
             fill="var(--color-secondary)"
             d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,42.7C672,32,768,32,864,42.7C960,53,1056,75,1152,80C1248,85,1344,75,1392,69.3L1440,64L1440,120L0,120Z"
@@ -134,7 +142,7 @@ function FreeDashboard({ premiumSuccess }: { premiumSuccess?: boolean }) {
       </p>
 
       <Link href="/wheel" className={styles.wheelBtn}>
-        🎡 Not feeling it?
+        <span aria-hidden="true">🎡</span>{" "}Not feeling it?
       </Link>
     </main>
   );

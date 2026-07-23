@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import Nav from "@/components/Nav/Nav";
 import Footer from "@/components/Footer/Footer";
+import CookieConsent from "@/components/CookieConsent/CookieConsent";
 import { getUserAndProfile } from "@/lib/supabase/user";
 import "@/styles/globals.scss";
-
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? "";
 
 export const metadata: Metadata = {
   title: {
@@ -102,14 +100,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
           If you're this curious about how we're built, reach out: toeta.app/contact
         */}
-        {/* AdSense — hidden for premium users (blocks Auto ads too) */}
-        {!isPremium && (
-          <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5976607298154940"
-            crossOrigin="anonymous"
-          />
-        )}
         {/* Structured data — WebApplication */}
         <script
           type="application/ld+json"
@@ -163,24 +153,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {/* Skip navigation — keyboard accessibility */}
         <a href="#main-content" className="skip-link">Skip to main content</a>
 
-        {/* Google Analytics */}
-        {GA_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga-init" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${GA_ID}');
-              `}
-            </Script>
-          </>
-        )}
-
+        <CookieConsent isPremium={isPremium} />
         <Nav />
         <div id="main-content" tabIndex={-1}>
           {children}

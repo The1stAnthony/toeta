@@ -26,15 +26,17 @@ export default function MealCard({ meal, label = "Today's Meal", onReroll, rerol
     <article className={styles.card} aria-labelledby={`meal-name-${meal.id}`}>
       <p className={styles.label}>{label}</p>
 
-      <div className={styles.imageWrapper}>
-        <Image
-          src={meal.imageUrl}
-          alt={meal.name}
-          fill
-          sizes="(max-width: 600px) 100vw, 540px"
-          className={styles.image}
-        />
-      </div>
+      {meal.imageUrl && (
+        <div className={styles.imageWrapper}>
+          <Image
+            src={meal.imageUrl}
+            alt={meal.name}
+            fill
+            sizes="(max-width: 600px) 100vw, 540px"
+            className={styles.image}
+          />
+        </div>
+      )}
 
       <div className={styles.body}>
         <h2 className={styles.name} id={`meal-name-${meal.id}`}>{meal.name}</h2>
@@ -47,8 +49,8 @@ export default function MealCard({ meal, label = "Today's Meal", onReroll, rerol
         <details className={styles.ingredients}>
           <summary>Ingredients</summary>
           <ul>
-            {meal.ingredients.map((ing) => (
-              <li key={ing.name}>
+            {meal.ingredients.map((ing, i) => (
+              <li key={i}>
                 <span className={styles.measure}>{ing.measure}</span> {ing.name}
               </li>
             ))}
@@ -84,8 +86,11 @@ export default function MealCard({ meal, label = "Today's Meal", onReroll, rerol
             rel="noopener noreferrer"
             className={styles.btnAffiliate}
           >
-            🛒 Shop Ingredients
+            <span aria-hidden="true">🛒</span>{" "}Shop Ingredients
           </a>
+          {hasAffiliateTag && (
+            <p className={styles.affiliateNote}>Ad · We may earn a commission</p>
+          )}
         </div>
 
         {onReroll !== undefined && (

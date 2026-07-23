@@ -88,9 +88,9 @@ export default function DessertRoll({ diet, allergens }: Props = {}) {
       <div className={styles.prompt}>
         <p>Feeling something sweet tonight?</p>
         <button className={styles.rollBtn} onClick={roll}>
-          Roll for Dessert 🎲
+          Roll for Dessert <span aria-hidden="true">🎲</span>
         </button>
-        {error && <p className={styles.error}>{error}</p>}
+        {error && <p className={styles.error} role="alert">{error}</p>}
       </div>
     </div>
   );

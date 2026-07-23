@@ -44,6 +44,8 @@ export async function POST(req: NextRequest) {
             stripe_customer_id: session.customer as string,
           })
           .eq("id", userId);
+      } else {
+        console.error("[stripe/webhook] checkout.session.completed missing supabase_user_id — session:", session.id);
       }
       break;
     }

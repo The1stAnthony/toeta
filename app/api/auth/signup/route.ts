@@ -36,8 +36,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Could not create account" }, { status: 500 });
   }
 
-  // Insert profile row since there is no database trigger
-  await admin.from("profiles").insert({ id: user.id });
+  const { error: profileError } = await admin.from("profiles").insert({ id: user.id });
+  if (profileError) {
+    console.error("[auth/signup] Profile insert failed:", profileError.message);
+    await admin.auth.admin.deleteUser(user.id);
+    return NextResponse.json({ error: "Could not create account. Please try again." }, { status: 500 });
+  }
 
   return NextResponse.json({ success: true });
 }

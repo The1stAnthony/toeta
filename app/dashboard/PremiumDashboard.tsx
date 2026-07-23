@@ -59,7 +59,7 @@ function usePremiumMeal(type: MealType, diet?: string, allergens?: string) {
   const [rerolled, setRerolled] = useState(false);
   const initialized = useRef(false);
 
-  async function fetchMeal(isReroll = false) {
+  async function fetchMeal(isReroll = false): Promise<boolean> {
     if (!isReroll) setLoading(true);
     setError(false);
 
@@ -77,8 +77,10 @@ function usePremiumMeal(type: MealType, diet?: string, allergens?: string) {
       recordSeenId(data.meal.id);
       setMeal(data.meal);
       if (!isReroll) playMealReady();
+      return true;
     } catch {
       setError(true);
+      return false;
     } finally {
       setLoading(false);
     }
@@ -94,13 +96,14 @@ function usePremiumMeal(type: MealType, diet?: string, allergens?: string) {
     if (cached) {
       try {
         const cachedMeal = JSON.parse(cached) as Meal;
-        recordSeenId(cachedMeal.id); // ensure re-roll excludes today's cached meal
+        recordSeenId(cachedMeal.id);
         setMeal(cachedMeal);
+        setLoading(false);
+        return;
       } catch {
-        // corrupted cache — refetch
+        // corrupted cache — clear it and fall through to fetch
+        localStorage.removeItem(todayKey(type));
       }
-      setLoading(false);
-      return;
     }
 
     fetchMeal();
@@ -108,9 +111,11 @@ function usePremiumMeal(type: MealType, diet?: string, allergens?: string) {
 
   async function handleReroll() {
     localStorage.removeItem(todayKey(type));
-    localStorage.setItem(rerollKey(type), "1");
-    setRerolled(true);
-    await fetchMeal(true);
+    const success = await fetchMeal(true);
+    if (success) {
+      localStorage.setItem(rerollKey(type), "1");
+      setRerolled(true);
+    }
   }
 
   return { meal, loading, error, rerolled, handleReroll };
@@ -137,7 +142,7 @@ function MealSlot({ type, state }: { type: MealType; state: SlotState }) {
         </div>
       )}
       {error && !loading && (
-        <div className={styles.cardError}>
+        <div className={styles.cardError} role="alert">
           <p>Couldn&apos;t load {type}.</p>
           <button onClick={() => handleReroll()} className={styles.retryBtn}>
             Retry
@@ -206,7 +211,7 @@ export default function PremiumDashboard({ diet, allergens, premiumSuccess }: Pr
       </div>
 
       <div className={styles.wave}>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
           <path
             fill="var(--color-secondary)"
             d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,42.7C672,32,768,32,864,42.7C960,53,1056,75,1152,80C1248,85,1344,75,1392,69.3L1440,64L1440,120L0,120Z"
@@ -214,10 +219,10 @@ export default function PremiumDashboard({ diet, allergens, premiumSuccess }: Pr
         </svg>
       </div>
 
-      <p className={styles.memberThanks}>Thank you for being a member. ⭐</p>
+      <p className={styles.memberThanks}>Thank you for being a member. <span aria-hidden="true">⭐</span></p>
 
       <Link href="/wheel" className={styles.wheelBtn}>
-        🎡 Not feeling it?
+        <span aria-hidden="true">🎡</span>{" "}Not feeling it?
       </Link>
     </main>
   );

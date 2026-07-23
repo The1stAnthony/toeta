@@ -150,7 +150,7 @@ export default function HomePage() {
             <p className={styles.faqA}>
               Yes — the daily meal suggestion, the cuisine wheel, and the dessert
               roll are all free with no account needed. Toeta Premium ($2/month)
-              adds personalized breakfast, lunch, and dinner recommendations with
+              adds multiple personalized meal recommendations with
               diet and allergen filters.
             </p>
           </details>
@@ -160,6 +160,14 @@ export default function HomePage() {
               Nope. Toeta (toeta.app) is a meal idea app, not Torta (the sandwich)
               or Toeat. If autocomplete tried to send you somewhere else confirm you meant Toeta because you&apos;re
               in the right place.
+            </p>
+          </details>
+          <details className={styles.faqItem}>
+            <summary className={styles.faqQ}>How is Toeta different from just asking AI?</summary>
+            <p className={styles.faqA}>
+              We don't need it, and don't use it for your meal suggestions. We built this the old fashioned way with
+              small servers and lean algorithms. Feel guilt free, knowing that when you generate a recipe suggestion, 
+              that you aren't wasting gallons of water just to get the same 6 recipes and hallucinated ingredients lists.
             </p>
           </details>
         </div>

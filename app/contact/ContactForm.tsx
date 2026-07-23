@@ -35,8 +35,8 @@ export default function ContactForm() {
 
   if (status === "sent") {
     return (
-      <div className={styles.successBox}>
-        <span className={styles.successIcon}>✓</span>
+      <div className={styles.successBox} role="status">
+        <span className={styles.successIcon} aria-hidden="true">✓</span>
         <p>Message sent! I&rsquo;ll get back to you soon.</p>
       </div>
     );
@@ -87,7 +87,7 @@ export default function ContactForm() {
       </div>
 
       {status === "error" && (
-        <p className={styles.errorMsg}>Something went wrong — please try again.</p>
+        <p className={styles.errorMsg} role="alert">Something went wrong — please try again.</p>
       )}
 
       <button

@@ -7,7 +7,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getRandomMeal, getRandomDessert } from "@/lib/mealdb";
 import { checkAndAlertSpoonacularQuota } from "@/lib/spoonacular-usage";
+import { createClient } from "@/lib/supabase/server";
 import type { Meal } from "@/types/meal";
+
+const VALID_DIETS = new Set(["vegetarian", "vegan", "ketogenic", "paleo", "pescetarian", "whole30"]);
+const VALID_ALLERGENS = new Set(["dairy", "egg", "gluten", "peanut", "shellfish", "soy", "tree nut"]);
 
 // ── Spoonacular types ────────────────────────────────────────────────────────
 
@@ -35,7 +39,6 @@ interface SpoonacularRecipe {
 
 interface SpoonacularSearchResponse {
   results: SpoonacularRecipe[];
-  totalResults: number;
 }
 
 // ── Calorie floors — keeps meal types substantive (no shakes as dinner) ──────
@@ -158,10 +161,27 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const type = searchParams.get("type") ?? "random";
 
-  // Premium Spoonacular meal types
+  // Premium Spoonacular meal types — require auth + active subscription
   if (type === "breakfast" || type === "lunch" || type === "dinner" || type === "dessert") {
-    const diet = searchParams.get("diet") ?? undefined;
-    const intolerances = searchParams.get("intolerances") ?? undefined;
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("is_premium")
+      .eq("id", user.id)
+      .single();
+    if (!profile?.is_premium) {
+      return NextResponse.json({ error: "Premium subscription required" }, { status: 403 });
+    }
+
+    const rawDiet = searchParams.get("diet");
+    const rawIntolerances = searchParams.get("intolerances");
+    const diet = rawDiet && VALID_DIETS.has(rawDiet) ? rawDiet : undefined;
+    const intolerances = rawIntolerances
+      ? rawIntolerances.split(",").map(s => s.trim().toLowerCase()).filter(s => VALID_ALLERGENS.has(s)).join(",") || undefined
+      : undefined;
     const excludeIds = searchParams.get("exclude")?.split(",").filter(Boolean) ?? [];
 
     try {

@@ -90,8 +90,7 @@ export default function AboutPage() {
           </p>
           <p>
             Join the Kitchen! Being classified as a Toeta founding member, you'll have 
-            early access to new features and the chance to shape the future of the app, 
-            and be locked in at $2/ month for life. Want to support without subscribing? 
+            early access to new features and the chance to shape the future of the app. Want to support without subscribing? 
             Click the Buy me a coffee link in the footer! Or contact us on other ways to support.
           </p>
         </section>

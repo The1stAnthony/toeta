@@ -76,11 +76,12 @@ export default function PreferencesForm({ userId, initialDiet, initialAllergens 
         These filters apply to your premium meal suggestions. Changes take effect on your next dashboard visit.
       </p>
 
-      <div className={styles.prefGroup}>
-        <span className={styles.prefLabel}>Diet</span>
+      <div className={styles.prefGroup} role="group" aria-labelledby="diet-group-label">
+        <span className={styles.prefLabel} id="diet-group-label">Diet</span>
         <div className={styles.prefChips}>
           <button
             type="button"
+            aria-pressed={diet === ""}
             className={`${styles.chip} ${diet === "" ? styles.chipActive : ""}`}
             onClick={() => { setDiet(""); setSaved(false); }}
           >
@@ -90,6 +91,7 @@ export default function PreferencesForm({ userId, initialDiet, initialAllergens 
             <button
               key={opt.value}
               type="button"
+              aria-pressed={diet === opt.value}
               className={`${styles.chip} ${diet === opt.value ? styles.chipActive : ""}`}
               onClick={() => { setDiet(opt.value); setSaved(false); }}
             >
@@ -99,13 +101,14 @@ export default function PreferencesForm({ userId, initialDiet, initialAllergens 
         </div>
       </div>
 
-      <div className={styles.prefGroup}>
-        <span className={styles.prefLabel}>Avoid (allergens / intolerances)</span>
+      <div className={styles.prefGroup} role="group" aria-labelledby="allergen-group-label">
+        <span className={styles.prefLabel} id="allergen-group-label">Avoid (allergens / intolerances)</span>
         <div className={styles.prefChips}>
           {ALLERGEN_OPTIONS.map((opt) => (
             <button
               key={opt.value}
               type="button"
+              aria-pressed={allergens.includes(opt.value)}
               className={`${styles.chip} ${allergens.includes(opt.value) ? styles.chipActive : ""}`}
               onClick={() => toggleAllergen(opt.value)}
             >
@@ -124,7 +127,7 @@ export default function PreferencesForm({ userId, initialDiet, initialAllergens 
           {saving ? "Saving…" : "Save Preferences"}
         </button>
         {saved && <span className={styles.prefSavedMsg}>✓ Saved</span>}
-        {error && <span className={styles.prefError}>{error}</span>}
+        {error && <span className={styles.prefError} role="alert">{error}</span>}
       </div>
     </div>
   );

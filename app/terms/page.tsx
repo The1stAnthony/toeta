@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | Toeta",
+  title: "Terms of Service",
   description: "Terms of Service for Toeta — free daily meal suggestion app at toeta.app.",
   alternates: { canonical: "https://toeta.app/terms" },
 };
@@ -32,8 +32,9 @@ export default function TermsPage() {
       <section>
         <h2>Recipe Data</h2>
         <p>
-          Recipe content is sourced from third-party databases and APIs. Toeta
-          does not author, curate, or independently verify individual recipes.
+          Recipe content is sourced from third-party databases and APIs, including
+          TheMealDB and Spoonacular. Toeta does not author, curate, or
+          independently verify individual recipes.
           Recipe data is provided &ldquo;as is&rdquo; and may contain errors, omissions,
           or inaccuracies. We are not responsible for the accuracy, completeness,
           or safety of any recipe or ingredient list.
@@ -81,7 +82,7 @@ export default function TermsPage() {
       <section>
         <h2>Acceptable Use</h2>
         <ul>
-          <li>Do not scrape or automate requests to Toeta or TheMealDB.</li>
+          <li>Do not scrape or automate requests to Toeta, TheMealDB, or Spoonacular.</li>
           <li>Do not attempt to reverse engineer, exploit, or overload the service.</li>
           <li>Do not use Toeta for any unlawful purpose.</li>
         </ul>

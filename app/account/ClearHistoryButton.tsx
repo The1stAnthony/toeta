@@ -12,7 +12,11 @@ export default function ClearHistoryButton() {
     // Remove 30-day history
     localStorage.removeItem("toeta-meal-history");
 
-    // Remove today's cached meals and re-roll flags
+    // Remove free-tier cache
+    localStorage.removeItem("toeta-meal");
+    localStorage.removeItem("toeta-meal-date");
+
+    // Remove today's cached meals and re-roll flags (premium)
     for (const type of ["breakfast", "lunch", "dinner", "dessert"]) {
       localStorage.removeItem(`toeta-meal-${type}-${today}`);
       localStorage.removeItem(`toeta-rerolled-${type}-${today}`);
@@ -34,6 +38,13 @@ export default function ClearHistoryButton() {
       <button className={styles.clearHistoryBtn} onClick={clearHistory}>
         {done ? "✓ Cleared" : "Reset history"}
       </button>
+      <span
+        role="status"
+        aria-live="polite"
+        style={{ position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0,0,0,0)", whiteSpace: "nowrap", border: 0 }}
+      >
+        {done ? "History cleared" : ""}
+      </span>
     </div>
   );
 }

@@ -174,6 +174,13 @@ export default function WheelPage() {
 
   useEffect(() => { draw(0); }, [draw]);
 
+  useEffect(() => {
+    return () => {
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+      audioCtxRef.current?.close();
+    };
+  }, []);
+
   // Animate from `from` to `to` over `duration` ms, ticking on segment crosses.
   // Calls onDone(finalAngle, winnerIndex) when complete.
   const runSpin = useCallback((
@@ -216,6 +223,26 @@ export default function WheelPage() {
     if (spinning) return;
     setSpinning(true);
     setResult(null);
+
+    const prefersReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReduced) {
+      const targetIdx = Math.floor(Math.random() * CATEGORIES.length);
+      const finalAngle = -(targetIdx * SLICE + SLICE / 2);
+      spinRef.current = finalAngle;
+      draw(finalAngle);
+      if (targetIdx === MIX_INDEX) {
+        const idx1 = randomNonMix();
+        const idx2 = randomNonMix(idx1);
+        setResult(`${CATEGORIES[idx1]} & ${CATEGORIES[idx2]} Mix`);
+      } else {
+        setResult(CATEGORIES[targetIdx]);
+      }
+      setSpinning(false);
+      return;
+    }
 
     const audioCtx = getAudioCtx(audioCtxRef);
     if (audioCtx.state === "suspended") audioCtx.resume();
@@ -299,7 +326,7 @@ export default function WheelPage() {
       </div>
 
       <button className={styles.spinBtn} onClick={spin} disabled={spinning}>
-        {spinning ? "Spinning..." : "🎡 Spin!"}
+        {spinning ? "Spinning..." : <><span aria-hidden="true">🎡</span>{" "}Spin!</> }
       </button>
 
       <div className={styles.backLinks}>

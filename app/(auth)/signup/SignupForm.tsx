@@ -10,7 +10,11 @@ type Mode = "signin" | "signup";
 export default function SignupForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const next = searchParams.get("next") ?? "/dashboard";
+  const rawNext = searchParams.get("next") ?? "";
+  const next = rawNext.startsWith("/") && !rawNext.startsWith("//") && !rawNext.includes("@") && !rawNext.includes(":")
+    ? rawNext
+    : "/dashboard";
+  const authError = searchParams.get("error");
 
   const [mode, setMode] = useState<Mode>("signin");
   const [email, setEmail] = useState("");
@@ -90,7 +94,11 @@ export default function SignupForm() {
         {mode === "signin" ? "Sign in to Toeta" : "Create your account"}
       </h1>
 
-      {error && <p className={styles.error} role="alert">{error}</p>}
+      {(error || authError) && (
+        <p className={styles.error} role="alert">
+          {error ?? "Authentication failed. Please try again."}
+        </p>
+      )}
 
       <form className={styles.form} onSubmit={handleSubmit}>
         <label className={styles.srOnly} htmlFor="email">Email address</label>

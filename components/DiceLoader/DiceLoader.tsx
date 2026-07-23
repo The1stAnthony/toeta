@@ -39,7 +39,7 @@ function Die({ animClass }: { animClass: string }) {
 
 export default function DiceLoader() {
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} role="status" aria-label="Loading your meal">
       <div className={styles.dice}>
         <Die animClass={styles.cubeA} />
         <Die animClass={styles.cubeB} />

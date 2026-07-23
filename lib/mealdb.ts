@@ -51,22 +51,26 @@ function toMeal(raw: RawMealDBMeal): Meal {
 // Returns a random main meal — retries up to 3 times if a dessert comes back
 export async function getRandomMeal(): Promise<Meal> {
   for (let attempt = 0; attempt < 3; attempt++) {
-    const data = await fetchJson(`${BASE_URL}/random.php`, { cache: "no-store" }) as { meals: RawMealDBMeal[] };
+    const data = await fetchJson(`${BASE_URL}/random.php`, { cache: "no-store" }) as { meals: RawMealDBMeal[] | null };
+    if (!data.meals?.length) continue;
     const meal = toMeal(data.meals[0]);
     if (MAIN_MEAL_CATEGORIES.includes(meal.category)) return meal;
   }
   // Fallback: fetch directly from a guaranteed main-meal category
-  const data = await fetchJson(`${BASE_URL}/filter.php?c=Chicken`, { cache: "no-store" }) as { meals: { idMeal: string }[] };
-  const pick = data.meals[Math.floor(Math.random() * data.meals.length)];
-  const detail = await fetchJson(`${BASE_URL}/lookup.php?i=${pick.idMeal}`, { cache: "no-store" }) as { meals: RawMealDBMeal[] };
+  const fallback = await fetchJson(`${BASE_URL}/filter.php?c=Chicken`, { cache: "no-store" }) as { meals: { idMeal: string }[] | null };
+  if (!fallback.meals?.length) throw new Error("TheMealDB unavailable");
+  const pick = fallback.meals[Math.floor(Math.random() * fallback.meals.length)];
+  const detail = await fetchJson(`${BASE_URL}/lookup.php?i=${pick.idMeal}`, { cache: "no-store" }) as { meals: RawMealDBMeal[] | null };
+  if (!detail.meals?.length) throw new Error("TheMealDB unavailable");
   return toMeal(detail.meals[0]);
 }
 
 // Returns a random dessert
 export async function getRandomDessert(): Promise<Meal> {
-  // Fetch all desserts and pick one randomly, then get full details
-  const data = await fetchJson(`${BASE_URL}/filter.php?c=Dessert`, { cache: "force-cache" }) as { meals: { idMeal: string }[] };
+  const data = await fetchJson(`${BASE_URL}/filter.php?c=Dessert`, { cache: "force-cache" }) as { meals: { idMeal: string }[] | null };
+  if (!data.meals?.length) throw new Error("TheMealDB unavailable");
   const pick = data.meals[Math.floor(Math.random() * data.meals.length)];
-  const detail = await fetchJson(`${BASE_URL}/lookup.php?i=${pick.idMeal}`, { cache: "no-store" }) as { meals: RawMealDBMeal[] };
+  const detail = await fetchJson(`${BASE_URL}/lookup.php?i=${pick.idMeal}`, { cache: "no-store" }) as { meals: RawMealDBMeal[] | null };
+  if (!detail.meals?.length) throw new Error("TheMealDB unavailable");
   return toMeal(detail.meals[0]);
 }

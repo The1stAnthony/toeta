@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CookiePrefLink from "@/components/CookieConsent/CookiePrefLink";
 import styles from "./Footer.module.scss";
 
 export default function Footer() {
@@ -22,6 +23,7 @@ export default function Footer() {
             <Link href="/premium">Premium</Link>
             <Link href="/privacy">Privacy</Link>
             <Link href="/terms">Terms</Link>
+            <CookiePrefLink />
           </nav>
         </div>
 

@@ -76,8 +76,13 @@ Variables are also set in the Vercel dashboard under Project Settings → Enviro
 - [ ] **Affiliate: HelloFresh / EveryPlate** — sign up at impact.com ($10–20 per signup)
 - [ ] **Google AdSense** — reapply at google.com/adsense; once approved, enable Auto ads in dashboard
 - [ ] **Google Search Console** — submit sitemap at toeta.app/sitemap.xml, request indexing for all pages
-- [ ] **Supabase migration** — run `supabase/migrations.sql` Migration 002 in the SQL editor to add `diet` and `allergens` columns to the profiles table
+- [ ] **Supabase migrations 003 & 004** — run in Supabase SQL Editor: Migration 003 adds the `app_settings` key/value table; Migration 004 adds an `email` column to profiles and wires up auth triggers to keep it in sync. Both are in `supabase/migrations.sql`.
 - [ ] **Spoonacular** — retrieve API key from spoonacular.com and add as `SPOONACULAR_API_KEY` in `.env.local` + Vercel
+- [x] **GDPR / cookie consent** — Cookie consent banner implemented. GA + AdSense only fire after explicit user consent. "Cookie preferences" link in footer lets users change their choice. Privacy policy updated with full GDPR-compliant content (data controller, legal basis, retention periods, all 8 GDPR rights).
+
+### Backlog (deferred features)
+- [ ] **Direct ad sales** — Sell banner placements directly to businesses at a flat monthly rate (e.g. $99/mo). Store active ad in `app_settings` table (key: `active_ad`, JSON value with imageUrl/linkUrl/altText/expiresAt). `<AdSlot>` checks for a sponsor ad first; falls back to AdSense if none. No deploy needed to swap ads. Target: food brands, meal kit services.
+- [ ] **Instacart referral share** — When a Toeta user shares the app and that referral converts on Instacart, the sharer gets a discount. Requires affiliate referral attribution via impact.com.
 
 ---
 

@@ -9,7 +9,7 @@ export default async function Nav() {
   return (
     <nav className={styles.nav} aria-label="Main navigation">
       <Link href="/" className={styles.logo}>
-        <Image src="/icon.png" alt="Toeta" width={36} height={36} />
+        <Image src="/icon.png" alt="" width={36} height={36} />
         <span>Toeta</span>
       </Link>
 
@@ -21,8 +21,8 @@ export default async function Nav() {
             {!isPremium && (
               <Link href="/premium" className={styles.cta}>Go Premium</Link>
             )}
-            <Link href="/account" className={styles.link}>
-              {isPremium ? "⭐ Account" : "Account"}
+            <Link href="/account" className={`${styles.link} ${styles.linkPersist}`}>
+              {isPremium ? <><span aria-hidden="true">⭐</span>{" "}Account</> : "Account"}
             </Link>
           </>
         ) : (
