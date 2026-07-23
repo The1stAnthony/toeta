@@ -54,13 +54,18 @@ function capitalize(s: string | undefined): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
+// Spoonacular mis-tags many recipes with meal-time labels in dishTypes regardless of
+// the mealType filter. Strip those out and use the first structural tag instead.
+const MEAL_TIME_TAGS = new Set([
+  "breakfast", "lunch", "dinner", "brunch", "supper", "morning meal",
+]);
+
 function toMealFromSpoonacular(recipe: SpoonacularRecipe, requestedType: string): Meal {
+  const structuralTag = recipe.dishTypes?.find((t) => !MEAL_TIME_TAGS.has(t.toLowerCase()));
   return {
     id: String(recipe.id),
     name: recipe.title,
-    // Use the requested meal type — Spoonacular's dishTypes[0] is "lunch" for almost
-    // everything, which makes all three cards show the same tag.
-    category: capitalize(requestedType),
+    category: capitalize(structuralTag) || (requestedType === "dessert" ? "Dessert" : "Meal"),
     area: capitalize(recipe.cuisines?.[0]) || (recipe.readyInMinutes ? `${recipe.readyInMinutes} min` : ""),
     instructions: recipe.instructions ?? "",
     imageUrl: recipe.image ?? "",
@@ -87,7 +92,6 @@ async function fetchSpoonacularMeal(
   function buildParams(withCalorieFloor: boolean): URLSearchParams {
     const p = new URLSearchParams({
       apiKey: key!,
-      mealType,
       number: "20",
       sort: "popularity",
       sortDirection: "desc",
@@ -95,6 +99,9 @@ async function fetchSpoonacularMeal(
       instructionsRequired: "true",
       fillIngredients: "true",
     });
+    // Only filter by mealType for dessert — breakfast/lunch/dinner tags are unreliable
+    // in Spoonacular's data and severely limit the pool.
+    if (mealType === "dessert") p.set("mealType", "dessert");
     if (diet) p.set("diet", diet);
     if (intolerances) p.set("intolerances", intolerances);
     if (withCalorieFloor && MIN_CALORIES[mealType]) {

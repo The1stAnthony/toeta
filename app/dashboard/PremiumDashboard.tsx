@@ -12,9 +12,9 @@ import styles from "./dashboard.module.scss";
 type MealType = "breakfast" | "lunch" | "dinner";
 
 const MEAL_LABELS: Record<MealType, string> = {
-  breakfast: "Breakfast",
-  lunch: "Lunch",
-  dinner: "Dinner",
+  breakfast: "Meal 1",
+  lunch: "Meal 2",
+  dinner: "Meal 3",
 };
 
 function todayKey(type: MealType) {
