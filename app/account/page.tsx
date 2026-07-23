@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getUserAndProfile } from "@/lib/supabase/user";
 import SignOutButton from "./SignOutButton";
 import ManageSubscriptionButton from "./ManageSubscriptionButton";
+import PreferencesForm from "./PreferencesForm";
 import styles from "./account.module.scss";
 
 export const metadata: Metadata = {
@@ -58,6 +59,17 @@ export default async function AccountPage() {
         )}
 
         <hr className={styles.divider} />
+
+        {isPremium && (
+          <>
+            <PreferencesForm
+              userId={user.id}
+              initialDiet={profile?.diet ?? ""}
+              initialAllergens={profile?.allergens ?? ""}
+            />
+            <hr className={styles.divider} />
+          </>
+        )}
 
         <SignOutButton />
       </div>

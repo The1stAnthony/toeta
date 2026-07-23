@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         hostname: "www.themealdb.com",
         pathname: "/images/**",
       },
+      {
+        protocol: "https",
+        hostname: "img.spoonacular.com",
+        pathname: "/recipes/**",
+      },
     ],
   },
 };

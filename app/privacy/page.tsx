@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Privacy Policy" updated="July 21, 2026">
+    <LegalPage title="Privacy Policy" updated="July 23, 2026">
 
       <section>
         <h2>Overview</h2>
@@ -31,15 +31,23 @@ export default function PrivacyPage() {
             track individuals across sites.
           </li>
           <li>
+            <strong>Account data</strong> — If you create a Toeta account, we
+            collect your email address and a hashed password via Supabase. We
+            also store your subscription status, member-since date, and any meal
+            preferences (diet type and allergens) you choose to set. You can
+            delete your account by contacting us.
+          </li>
+          <li>
             <strong>Local meal cache</strong> — Today&rsquo;s meal suggestion is stored
             in your browser&rsquo;s <code>localStorage</code> so we don&rsquo;t re-fetch it
             on every page refresh. This data never leaves your device and we
             cannot access it.
           </li>
           <li>
-            <strong>Advertising cookies</strong> — We use Google AdSense, which
-            may set cookies for ad personalization. You can opt out via your
-            browser settings or Google&rsquo;s Ad Settings.
+            <strong>Advertising cookies</strong> — Free-tier users see ads via Google AdSense,
+            which may set cookies for ad personalization. Premium subscribers do not
+            receive ads and the AdSense script is not loaded on their sessions.
+            You can opt out via your browser settings or Google&rsquo;s Ad Settings.
           </li>
         </ul>
       </section>
@@ -47,9 +55,10 @@ export default function PrivacyPage() {
       <section>
         <h2>What We Do NOT Collect</h2>
         <ul>
-          <li>We have no account system — no name, email, or password is ever collected.</li>
+          <li>We never collect your full name, phone number, or physical address.</li>
           <li>We do not sell, share, or broker any user data to third parties.</li>
           <li>We do not track you across other websites.</li>
+          <li>We never store raw payment card numbers — all payments are processed directly by Stripe.</li>
         </ul>
       </section>
 
@@ -57,10 +66,27 @@ export default function PrivacyPage() {
         <h2>Third-Party Services</h2>
         <ul>
           <li>
-            <strong>TheMealDB</strong> — Recipe data is fetched from{" "}
-            <a href="https://www.themealdb.com" target="_blank" rel="noopener noreferrer">
-              themealdb.com
-            </a>. No user data is sent to them.
+            <strong>TheMealDB</strong> — Free-tier recipe data. No user data is sent to them.
+          </li>
+          <li>
+            <strong>Spoonacular</strong> — Premium recipe data for personalized meals.
+            Your diet and allergen preferences are sent as anonymous query parameters
+            (no account identifier is shared with Spoonacular).
+          </li>
+          <li>
+            <strong>Supabase</strong> — Authentication and database. Stores your email,
+            hashed password, and profile data. See{" "}
+            <a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer">
+              Supabase&rsquo;s Privacy Policy
+            </a>.
+          </li>
+          <li>
+            <strong>Stripe</strong> — Payment processing for Premium subscriptions.
+            We store only your Stripe customer ID — never card numbers or full payment
+            details. See{" "}
+            <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer">
+              Stripe&rsquo;s Privacy Policy
+            </a>.
           </li>
           <li>
             <strong>Google Analytics</strong> — Behavioral analytics. See{" "}
@@ -69,7 +95,7 @@ export default function PrivacyPage() {
             </a>.
           </li>
           <li>
-            <strong>Google AdSense</strong> — Advertising. See{" "}
+            <strong>Google AdSense</strong> — Advertising (free tier only). See{" "}
             <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">
               Google&rsquo;s Ad Policy
             </a>.
@@ -119,10 +145,9 @@ export default function PrivacyPage() {
       <section>
         <h2>Changes to This Policy</h2>
         <p>
-          We may update this policy as Toeta grows (e.g., when we add accounts or
-          premium features). The &ldquo;Last updated&rdquo; date at the top reflects the
-          most recent revision. Continued use of Toeta after changes constitutes
-          acceptance.
+          We may update this policy as Toeta grows. The &ldquo;Last updated&rdquo; date at
+          the top reflects the most recent revision. Continued use of Toeta after
+          changes constitutes acceptance.
         </p>
       </section>
 

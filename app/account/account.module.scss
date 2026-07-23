@@ -104,6 +104,114 @@
   margin-top: 0.5rem;
 }
 
+/* ── Preferences section ─────────────────────────────────── */
+.preferences {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.prefHeading {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.prefNote {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin-top: -0.5rem;
+}
+
+.prefGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.prefLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.prefChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.35rem 0.85rem;
+  border-radius: 99px;
+  border: 1.5px solid var(--color-border, #e5e7eb);
+  background: transparent;
+  color: var(--color-text-muted);
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+
+  &:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+}
+
+.chipActive {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+
+  &:hover {
+    background: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    color: #fff;
+  }
+}
+
+.prefActions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.prefSaveBtn {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: background 0.2s;
+
+  &:hover:not(:disabled) {
+    background: var(--color-primary-dark);
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+}
+
+.prefSavedMsg {
+  font-size: 0.85rem;
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.prefError {
+  font-size: 0.85rem;
+  color: #dc2626;
+}
+
+/* ── Sign out ─────────────────────────────────────────────── */
 .signOutBtn {
   background: none;
   border: 1px solid var(--color-border, #e5e7eb);

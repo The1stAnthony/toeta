@@ -10,6 +10,7 @@ export interface Meal {
   sourceUrl: string;
   youtubeUrl: string;
   ingredients: Ingredient[];
+  readyInMinutes?: number;
 }
 
 export interface Ingredient {

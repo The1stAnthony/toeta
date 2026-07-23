@@ -7,6 +7,8 @@ export type Database = {
           is_premium: boolean;
           subscribed_since: string | null;
           stripe_customer_id: string | null;
+          diet: string | null;
+          allergens: string | null;
           created_at: string;
         };
         Insert: {
@@ -14,6 +16,8 @@ export type Database = {
           is_premium?: boolean | null;
           subscribed_since?: string | null;
           stripe_customer_id?: string | null;
+          diet?: string | null;
+          allergens?: string | null;
           created_at?: string | null;
         };
         Update: {
@@ -21,6 +25,8 @@ export type Database = {
           is_premium?: boolean | null;
           subscribed_since?: string | null;
           stripe_customer_id?: string | null;
+          diet?: string | null;
+          allergens?: string | null;
           created_at?: string | null;
         };
         Relationships: [];

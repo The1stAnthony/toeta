@@ -7,6 +7,7 @@ import MealCard from "@/components/MealCard/MealCard";
 import DessertRoll from "@/components/DessertRoll/DessertRoll";
 import AdSlot from "@/components/AdSlot/AdSlot";
 import DiceLoader from "@/components/DiceLoader/DiceLoader";
+import PremiumDashboard from "./PremiumDashboard";
 import { playMealReady } from "@/lib/audio";
 import styles from "./dashboard.module.scss";
 
@@ -20,9 +21,28 @@ function todayString() {
 interface Props {
   isPremium: boolean;
   premiumSuccess?: boolean;
+  diet?: string;
+  allergens?: string;
 }
 
-export default function DashboardClient({ isPremium, premiumSuccess }: Props) {
+export default function DashboardClient({ isPremium, premiumSuccess, diet, allergens }: Props) {
+  // Premium users get the full 3-card layout
+  if (isPremium) {
+    return (
+      <PremiumDashboard
+        diet={diet}
+        allergens={allergens}
+        premiumSuccess={premiumSuccess}
+      />
+    );
+  }
+
+  return <FreeDashboard premiumSuccess={premiumSuccess} />;
+}
+
+// ── Free tier dashboard ───────────────────────────────────────────────────────
+
+function FreeDashboard({ premiumSuccess }: { premiumSuccess?: boolean }) {
   const [meal, setMeal] = useState<Meal | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -68,14 +88,9 @@ export default function DashboardClient({ isPremium, premiumSuccess }: Props) {
       <section className={styles.hero}>
         <h1 className={styles.heading}>What&apos;s for dinner?</h1>
         <p className={styles.sub}>One great meal, every day. No decision fatigue.</p>
-        {isPremium && (
-          <span className={styles.premiumBadge}>⭐ Premium</span>
-        )}
       </section>
 
-      {!isPremium && (
-        <AdSlot id="ad-top" size="banner" slotId="3990401804" />
-      )}
+      <AdSlot id="ad-top" size="banner" slotId="3990401804" />
 
       <section className={styles.cards}>
         {loading && <DiceLoader />}
@@ -84,19 +99,23 @@ export default function DashboardClient({ isPremium, premiumSuccess }: Props) {
 
         {meal && (
           <div className={styles.sideColumn}>
-            {!isPremium && (
-              <AdSlot id="ad-side" size="rectangle" slotId="5303483471" />
-            )}
+            <AdSlot id="ad-side" size="rectangle" slotId="5303483471" />
             <DessertRoll />
           </div>
         )}
       </section>
 
-      {!isPremium && (
-        <div className={styles.adBottom}>
-          <AdSlot id="ad-bottom" size="rectangle" slotId="4295960467" />
+      {meal && (
+        <div className={styles.rerollNudge}>
+          <Link href="/premium" className={styles.rerollNudgeLink}>
+            ↺ Want to re-roll? Go Premium
+          </Link>
         </div>
       )}
+
+      <div className={styles.adBottom}>
+        <AdSlot id="ad-bottom" size="rectangle" slotId="4295960467" />
+      </div>
 
       <div className={styles.wave}>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none">

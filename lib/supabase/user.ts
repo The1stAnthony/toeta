@@ -13,7 +13,7 @@ export const getUserAndProfile = cache(async () => {
     if (!user) return { user: null, profile: null as Profile, isPremium: false };
     const { data: profile } = await supabase
       .from("profiles")
-      .select("is_premium, subscribed_since, stripe_customer_id")
+      .select("is_premium, subscribed_since, stripe_customer_id, diet, allergens")
       .eq("id", user.id)
       .single();
     return {

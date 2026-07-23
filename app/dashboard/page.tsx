@@ -15,13 +15,18 @@ export default async function DashboardPage({
 }: {
   searchParams: Promise<{ premium?: string }>;
 }) {
-  const { isPremium } = await getUserAndProfile();
+  const { isPremium, profile } = await getUserAndProfile();
   const params = await searchParams;
   const premiumSuccess = params.premium === "success";
 
   return (
     <Suspense fallback={<DashboardLoading />}>
-      <DashboardClient isPremium={isPremium} premiumSuccess={premiumSuccess} />
+      <DashboardClient
+        isPremium={isPremium}
+        premiumSuccess={premiumSuccess}
+        diet={profile?.diet ?? undefined}
+        allergens={profile?.allergens ?? undefined}
+      />
     </Suspense>
   );
 }

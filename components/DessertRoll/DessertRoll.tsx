@@ -7,7 +7,12 @@ import DiceLoader from "@/components/DiceLoader/DiceLoader";
 import { playMealReady } from "@/lib/audio";
 import styles from "./DessertRoll.module.scss";
 
-export default function DessertRoll() {
+interface Props {
+  diet?: string;
+  allergens?: string;
+}
+
+export default function DessertRoll({ diet, allergens }: Props = {}) {
   const [dessert, setDessert] = useState<Meal | null>(null);
   const [loading, setLoading] = useState(false);
   const [rolled, setRolled] = useState(false);
@@ -18,10 +23,24 @@ export default function DessertRoll() {
     setError(null);
 
     try {
-      const res = await fetch("/api/meal?dessert=true");
+      let url: string;
+      if (diet || allergens) {
+        // Premium: use Spoonacular with user filters
+        const params = new URLSearchParams({ type: "dessert" });
+        if (diet) params.set("diet", diet);
+        if (allergens) params.set("intolerances", allergens);
+        url = `/api/meal?${params}`;
+      } else {
+        // Free: use TheMealDB
+        url = "/api/meal?dessert=true";
+      }
+
+      const res = await fetch(url);
       if (!res.ok) throw new Error("Failed to roll dessert");
-      const data = await res.json();
-      setDessert(data.dessert);
+      const data = await res.json() as { meal?: Meal; dessert?: Meal };
+      const result = data.meal ?? data.dessert ?? null;
+      if (!result) throw new Error("No dessert returned");
+      setDessert(result);
       setRolled(true);
       playMealReady();
     } catch {
