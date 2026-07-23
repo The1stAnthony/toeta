@@ -21,11 +21,11 @@ export default function HomePage() {
           eat and what you actually like.
         </p>
         <div className={styles.ctas}>
-          <Link href="/dashboard" className={styles.btnPrimary}>
-            Get Started — It&apos;s Free
+          <Link href="/premium" className={styles.btnPrimary}>
+            Become a Member
           </Link>
           <Link href="/dashboard" className={styles.btnSecondary}>
-            Try it first
+            Try it free first
           </Link>
         </div>
       </section>

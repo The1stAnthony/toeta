@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getUserAndProfile } from "@/lib/supabase/user";
 import SignOutButton from "./SignOutButton";
+import ManageSubscriptionButton from "./ManageSubscriptionButton";
 import styles from "./account.module.scss";
 
 export const metadata: Metadata = {
@@ -48,7 +49,9 @@ export default async function AccountPage() {
           </div>
         )}
 
-        {!isPremium && (
+        {isPremium ? (
+          <ManageSubscriptionButton />
+        ) : (
           <a href="/premium" className={styles.upgradeBtn}>
             Upgrade to Premium →
           </a>

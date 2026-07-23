@@ -17,7 +17,6 @@ export default async function Nav() {
       <div className={styles.links}>
         <Link href="/dashboard" className={styles.link}>Today&apos;s Meal</Link>
         <Link href="/wheel" className={styles.link}>Spin the Wheel</Link>
-        <Link href="/about" className={styles.link}>About</Link>
         {user ? (
           <>
             {!isPremium && (
