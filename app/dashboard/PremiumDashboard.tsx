@@ -25,17 +25,29 @@ function rerollKey(type: MealType) {
   return `toeta-rerolled-${type}-${new Date().toISOString().slice(0, 10)}`;
 }
 
-function getSeenIds(type: MealType): string[] {
+// Shared history across all meal types — prevents the same recipe appearing on
+// two different cards and avoids repeats for 30 days.
+const HISTORY_KEY = "toeta-meal-history";
+const HISTORY_TTL = 30 * 24 * 60 * 60 * 1000; // 30 days in ms
+
+interface HistoryEntry { id: string; ts: number; }
+
+function getSeenIds(): string[] {
   try {
-    return JSON.parse(localStorage.getItem(`toeta-history-${type}`) ?? "[]") as string[];
+    const raw = JSON.parse(localStorage.getItem(HISTORY_KEY) ?? "[]") as HistoryEntry[];
+    const cutoff = Date.now() - HISTORY_TTL;
+    return raw.filter((e) => e.ts > cutoff).map((e) => e.id);
   } catch { return []; }
 }
 
-function recordSeenId(type: MealType, id: string) {
-  const seen = getSeenIds(type);
-  if (seen.includes(id)) return;
-  const updated = [...seen, id].slice(-50); // cap at 50 entries
-  localStorage.setItem(`toeta-history-${type}`, JSON.stringify(updated));
+function recordSeenId(id: string) {
+  try {
+    const raw = JSON.parse(localStorage.getItem(HISTORY_KEY) ?? "[]") as HistoryEntry[];
+    const cutoff = Date.now() - HISTORY_TTL;
+    const pruned = raw.filter((e) => e.ts > cutoff && e.id !== id);
+    pruned.push({ id, ts: Date.now() });
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(pruned));
+  } catch {}
 }
 
 // ── Per-card meal hook ────────────────────────────────────────────────────────
@@ -54,7 +66,7 @@ function usePremiumMeal(type: MealType, diet?: string, allergens?: string) {
     const params = new URLSearchParams({ type });
     if (diet) params.set("diet", diet);
     if (allergens) params.set("intolerances", allergens);
-    const seenIds = getSeenIds(type);
+    const seenIds = getSeenIds();
     if (seenIds.length) params.set("exclude", seenIds.join(","));
 
     try {
@@ -62,7 +74,7 @@ function usePremiumMeal(type: MealType, diet?: string, allergens?: string) {
       if (!res.ok) throw new Error();
       const data = (await res.json()) as { meal: Meal };
       localStorage.setItem(todayKey(type), JSON.stringify(data.meal));
-      recordSeenId(type, data.meal.id);
+      recordSeenId(data.meal.id);
       setMeal(data.meal);
       if (!isReroll) playMealReady();
     } catch {
@@ -81,7 +93,9 @@ function usePremiumMeal(type: MealType, diet?: string, allergens?: string) {
     const cached = localStorage.getItem(todayKey(type));
     if (cached) {
       try {
-        setMeal(JSON.parse(cached) as Meal);
+        const cachedMeal = JSON.parse(cached) as Meal;
+        recordSeenId(cachedMeal.id); // ensure re-roll excludes today's cached meal
+        setMeal(cachedMeal);
       } catch {
         // corrupted cache — refetch
       }

@@ -4,6 +4,7 @@ import { getUserAndProfile } from "@/lib/supabase/user";
 import SignOutButton from "./SignOutButton";
 import ManageSubscriptionButton from "./ManageSubscriptionButton";
 import PreferencesForm from "./PreferencesForm";
+import ClearHistoryButton from "./ClearHistoryButton";
 import styles from "./account.module.scss";
 
 export const metadata: Metadata = {
@@ -71,6 +72,10 @@ export default async function AccountPage() {
           </>
         )}
 
+        <hr className={styles.divider} />
+        <ClearHistoryButton />
+
+        <hr className={styles.divider} />
         <SignOutButton />
       </div>
     </main>

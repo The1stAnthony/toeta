@@ -46,6 +46,48 @@ comment on column public.profiles.allergens is
   'Comma-separated Spoonacular intolerances — e.g. "dairy,gluten,shellfish"';
 
 
+-- ── Migration 004: Store email in profiles ───────────────────────────────────
+-- Makes users queryable by email directly from the Supabase dashboard without
+-- needing to join through auth.users (which requires service role access).
+
+alter table public.profiles
+  add column if not exists email text;
+
+-- Update new-user trigger to capture email on sign-up
+create or replace function public.handle_new_user()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  insert into public.profiles (id, email)
+  values (new.id, new.email)
+  on conflict (id) do update set email = excluded.email;
+  return new;
+end;
+$$;
+
+-- Keep email in sync if the user ever changes it in Supabase auth
+create or replace function public.handle_user_email_update()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  update public.profiles set email = new.email where id = new.id;
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_updated on auth.users;
+create trigger on_auth_user_updated
+  after update on auth.users
+  for each row
+  when (old.email is distinct from new.email)
+  execute procedure public.handle_user_email_update();
+
+-- Backfill emails for existing users (safe to run multiple times)
+update public.profiles p
+set email = u.email
+from auth.users u
+where p.id = u.id
+  and p.email is null;
+
+
 -- ── Migration 003: App settings (key/value store) ────────────────────────────
 -- Used internally by Toeta for operational flags — not user-facing.
 -- Example: tracks the date the Spoonacular quota alert was last sent.

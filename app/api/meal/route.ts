@@ -38,6 +38,15 @@ interface SpoonacularSearchResponse {
   totalResults: number;
 }
 
+// ── Calorie floors — keeps meal types substantive (no shakes as dinner) ──────
+
+const MIN_CALORIES: Record<string, number> = {
+  breakfast: 300,
+  lunch:     400,
+  dinner:    500,
+  dessert:   150,
+};
+
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 function capitalize(s: string | undefined): string {
@@ -75,39 +84,57 @@ async function fetchSpoonacularMeal(
   const key = process.env.SPOONACULAR_API_KEY;
   if (!key) throw new Error("SPOONACULAR_API_KEY not configured");
 
-  const params = new URLSearchParams({
-    apiKey: key,
-    mealType,
-    number: "20",
-    addRecipeInformation: "true",
-    instructionsRequired: "true",
-    fillIngredients: "true",
-  });
-  if (diet) params.set("diet", diet);
-  if (intolerances) params.set("intolerances", intolerances);
-
-  const res = await fetch(
-    `https://api.spoonacular.com/recipes/complexSearch?${params}`,
-    { cache: "no-store" }
-  );
-
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`Spoonacular ${res.status}: ${body}`);
+  function buildParams(withCalorieFloor: boolean): URLSearchParams {
+    const p = new URLSearchParams({
+      apiKey: key!,
+      mealType,
+      number: "20",
+      sort: "popularity",
+      sortDirection: "desc",
+      addRecipeInformation: "true",
+      instructionsRequired: "true",
+      fillIngredients: "true",
+    });
+    if (diet) p.set("diet", diet);
+    if (intolerances) p.set("intolerances", intolerances);
+    if (withCalorieFloor && MIN_CALORIES[mealType]) {
+      p.set("minCalories", String(MIN_CALORIES[mealType]));
+    }
+    return p;
   }
 
-  // Read quota headers and fire usage alert non-blocking
+  async function callAPI(params: URLSearchParams): Promise<{ results: SpoonacularRecipe[]; res: Response }> {
+    const res = await fetch(
+      `https://api.spoonacular.com/recipes/complexSearch?${params}`,
+      { cache: "no-store" }
+    );
+    if (!res.ok) {
+      const body = await res.text();
+      throw new Error(`Spoonacular ${res.status}: ${body}`);
+    }
+    const data = (await res.json()) as SpoonacularSearchResponse;
+    return { results: data.results, res };
+  }
+
+  // First attempt: all filters including calorie floor
+  let { results, res } = await callAPI(buildParams(true));
+
+  // If filters drained the pool, retry without the calorie floor (costs one extra point)
+  if (results.length === 0 && MIN_CALORIES[mealType]) {
+    ({ results, res } = await callAPI(buildParams(false)));
+  }
+
+  // Read quota headers from the last response and alert if needed
   const quotaUsed = parseInt(res.headers.get("X-API-Quota-Used") ?? "0", 10);
   const quotaLeft = parseInt(res.headers.get("X-API-Quota-Left") ?? "0", 10);
   if (quotaUsed > 0) {
     checkAndAlertSpoonacularQuota(quotaUsed, quotaLeft).catch(() => {});
   }
 
-  const data = (await res.json()) as SpoonacularSearchResponse;
-  if (!data.results.length) throw new Error("No recipes found for these preferences");
+  if (!results.length) throw new Error("No recipes found for these preferences");
 
-  // Prefer recipes not seen before; fall back to full pool if all 20 are in history
-  let candidates = data.results;
+  // Prefer recipes not seen in the last 30 days; fall back to full pool if history covers all
+  let candidates = results;
   if (excludeIds?.length) {
     const excluded = new Set(excludeIds);
     const fresh = candidates.filter((r) => !excluded.has(String(r.id)));

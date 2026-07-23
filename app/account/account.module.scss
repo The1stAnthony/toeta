@@ -211,6 +211,48 @@
   color: #dc2626;
 }
 
+/* ── Clear history ────────────────────────────────────────── */
+.clearHistory {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.clearHistoryInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.clearHistoryNote {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.clearHistoryBtn {
+  background: none;
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+
+  &:hover {
+    border-color: #dc2626;
+    color: #dc2626;
+    background: #fef2f2;
+  }
+}
+
 /* ── Sign out ─────────────────────────────────────────────── */
 .signOutBtn {
   background: none;

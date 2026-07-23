@@ -4,6 +4,7 @@ export type Database = {
       profiles: {
         Row: {
           id: string;
+          email: string | null;
           is_premium: boolean;
           subscribed_since: string | null;
           stripe_customer_id: string | null;
@@ -13,6 +14,7 @@ export type Database = {
         };
         Insert: {
           id: string;
+          email?: string | null;
           is_premium?: boolean | null;
           subscribed_since?: string | null;
           stripe_customer_id?: string | null;
@@ -22,6 +24,7 @@ export type Database = {
         };
         Update: {
           id?: string;
+          email?: string | null;
           is_premium?: boolean | null;
           subscribed_since?: string | null;
           stripe_customer_id?: string | null;
