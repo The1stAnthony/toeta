@@ -49,7 +49,7 @@ function toMealFromSpoonacular(recipe: SpoonacularRecipe): Meal {
   return {
     id: String(recipe.id),
     name: recipe.title,
-    category: capitalize(recipe.diets?.[0]) || capitalize(recipe.dishTypes?.[0]) || "Premium",
+    category: capitalize(recipe.dishTypes?.[0]) || "Meal",
     area: capitalize(recipe.cuisines?.[0]) || "International",
     instructions: recipe.instructions ?? "",
     imageUrl: recipe.image ?? "",

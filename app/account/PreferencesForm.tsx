@@ -7,9 +7,10 @@ import styles from "./account.module.scss";
 const DIET_OPTIONS = [
   { value: "vegetarian", label: "Vegetarian" },
   { value: "vegan", label: "Vegan" },
-  { value: "gluten free", label: "Gluten-Free" },
   { value: "ketogenic", label: "Keto" },
   { value: "paleo", label: "Paleo" },
+  { value: "pescetarian", label: "Pescetarian" },
+  { value: "whole30", label: "Whole30" },
 ];
 
 const ALLERGEN_OPTIONS = [
@@ -20,7 +21,6 @@ const ALLERGEN_OPTIONS = [
   { value: "shellfish", label: "Shellfish" },
   { value: "soy", label: "Soy" },
   { value: "tree nut", label: "Tree Nuts" },
-  { value: "wheat", label: "Wheat" },
 ];
 
 interface Props {

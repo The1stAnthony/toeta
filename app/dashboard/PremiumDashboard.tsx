@@ -115,21 +115,12 @@ function MealSlot({ type, state }: { type: MealType; state: SlotState }) {
         </div>
       )}
       {meal && !loading && (
-        <>
-          <MealCard meal={meal} label={MEAL_LABELS[type]} />
-          <div className={styles.rerollRow}>
-            {rerolled ? (
-              <span className={styles.rerollUsed}>✓ Re-rolled today</span>
-            ) : (
-              <>
-                <span className={styles.rerollHint}>1 re-roll available</span>
-                <button className={styles.rerollBtn} onClick={handleReroll}>
-                  ↺ Re-roll
-                </button>
-              </>
-            )}
-          </div>
-        </>
+        <MealCard
+          meal={meal}
+          label={MEAL_LABELS[type]}
+          onReroll={handleReroll}
+          rerolled={rerolled}
+        />
       )}
     </div>
   );

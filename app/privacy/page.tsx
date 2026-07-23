@@ -154,8 +154,8 @@ export default function PrivacyPage() {
       <section>
         <h2>Contact</h2>
         <p>
-          Questions? Email us at{" "}
-          <a href="mailto:sean.a.protho1@gmail.com">sean.a.protho1@gmail.com</a>.
+          Questions? Use the{" "}
+          <a href="/contact">contact form</a>.
         </p>
       </section>
 

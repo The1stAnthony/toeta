@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import type { Meal } from "@/types/meal";
 import styles from "./MealCard.module.scss";
@@ -9,6 +11,8 @@ const hasAffiliateTag = INSTACART_AFFILIATE_TAG !== "YOUR_TAG_HERE";
 interface MealCardProps {
   meal: Meal;
   label?: string;
+  onReroll?: () => void;
+  rerolled?: boolean;
 }
 
 function instacartUrl(mealName: string) {
@@ -17,7 +21,7 @@ function instacartUrl(mealName: string) {
   return hasAffiliateTag ? `${base}&affiliate=${INSTACART_AFFILIATE_TAG}` : base;
 }
 
-export default function MealCard({ meal, label = "Today's Meal" }: MealCardProps) {
+export default function MealCard({ meal, label = "Today's Meal", onReroll, rerolled }: MealCardProps) {
   return (
     <article className={styles.card} aria-labelledby={`meal-name-${meal.id}`}>
       <p className={styles.label}>{label}</p>
@@ -83,6 +87,21 @@ export default function MealCard({ meal, label = "Today's Meal" }: MealCardProps
             🛒 Shop Ingredients
           </a>
         </div>
+
+        {onReroll !== undefined && (
+          <div className={styles.rerollArea}>
+            <span className={styles.rerollHint}>
+              {rerolled ? "Re-rolled today" : "1 re-roll available"}
+            </span>
+            <button
+              className={`${styles.rerollBtn} ${rerolled ? styles.rerollBtnUsed : ""}`}
+              onClick={rerolled ? undefined : onReroll}
+              disabled={rerolled}
+            >
+              {rerolled ? "✓ Re-rolled" : "↺ Re-roll"}
+            </button>
+          </div>
+        )}
       </div>
     </article>
   );

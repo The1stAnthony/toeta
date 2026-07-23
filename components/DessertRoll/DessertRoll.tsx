@@ -38,7 +38,8 @@ export default function DessertRoll({ diet, allergens }: Props = {}) {
       const res = await fetch(url);
       if (!res.ok) throw new Error("Failed to roll dessert");
       const data = await res.json() as { meal?: Meal; dessert?: Meal };
-      const result = data.meal ?? data.dessert ?? null;
+      // TheMealDB returns { meal, dessert } — prefer dessert. Spoonacular returns { meal } only.
+      const result = data.dessert ?? data.meal ?? null;
       if (!result) throw new Error("No dessert returned");
       setDessert(result);
       setRolled(true);
