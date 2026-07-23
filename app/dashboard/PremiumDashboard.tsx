@@ -213,12 +213,6 @@ export default function PremiumDashboard({ diet, allergens, premiumSuccess }: Pr
           />
         </svg>
       </div>
-      <p className={styles.poweredBy}>
-        Powered by{" "}
-        <a href="https://spoonacular.com" target="_blank" rel="noopener noreferrer">
-          Spoonacular
-        </a>
-      </p>
 
       <Link href="/wheel" className={styles.wheelBtn}>
         🎡 Not feeling it?

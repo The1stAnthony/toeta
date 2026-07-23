@@ -11,7 +11,6 @@ export default async function Nav() {
       <Link href="/" className={styles.logo}>
         <Image src="/icon.png" alt="Toeta" width={36} height={36} />
         <span>Toeta</span>
-        <span className={styles.beta}>Beta</span>
       </Link>
 
       <div className={styles.links}>

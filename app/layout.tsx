@@ -39,6 +39,10 @@ export const metadata: Metadata = {
     "food wheel spinner",
     "daily meal suggestion",
     "free meal planner",
+    // Brand / name disambiguation
+    "toeta meaning",
+    "toeta estonian",
+    "what does toeta mean",
     // Brand / competitor adjacent
     "FoodsGPT",
     "BuzzFeed dinner quiz",
@@ -86,6 +90,18 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <head>
+        {/*
+          👋 Hey, you found the source.
+
+          Toeta (Estonian) — verb:
+            "to support, to back, to endorse, to prop up."
+          That's us. We're here to prop up your dinner decision.
+
+          Also: not Torta (the Mexican sandwich — though honestly, excellent choice).
+          Also also: not Tota (the TikTok thing — we're flattered by the confusion).
+
+          If you're this curious about how we're built, reach out: toeta.app/contact
+        */}
         {/* AdSense — hidden for premium users (blocks Auto ads too) */}
         {!isPremium && (
           <script
@@ -104,70 +120,41 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               name: "Toeta",
               alternateName: ["Toeta App", "Toeat", "To Eat App"],
               description:
-                "Toeta is a free daily meal suggestion app. Not sure what to eat tonight? Toeta picks one great dinner idea for you every day — no sign-up required. Spin the cuisine wheel or roll for dessert.",
+                "Toeta is a free daily meal idea app. Not sure what to eat tonight? Get one great meal suggestion every day — no sign-up required. Spin the cuisine wheel, roll for dessert, or go Premium for personalized meals with diet and allergen filters.",
               url: "https://toeta.app",
               applicationCategory: "LifestyleApplication",
               operatingSystem: "Web",
               browserRequirements: "Requires JavaScript",
-              offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+              offers: [
+                { "@type": "Offer", price: "0", priceCurrency: "USD", name: "Free" },
+                { "@type": "Offer", price: "2.00", priceCurrency: "USD", name: "Premium", billingDuration: "P1M" },
+              ],
               featureList: [
                 "Daily meal suggestion",
-                "Random cuisine wheel spinner",
+                "25-cuisine spin wheel",
                 "Dessert roll",
-                "No sign-up required",
+                "Personalized breakfast, lunch, and dinner (Premium)",
+                "Diet and allergen filters (Premium)",
+                "No sign-up required for free tier",
               ],
             }),
           }}
         />
-        {/* Structured data — FAQ (helps AI Overviews and Perplexity surface Toeta) */}
+        {/* Structured data — Organization (sitewide brand signal) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "FAQPage",
-              mainEntity: [
-                {
-                  "@type": "Question",
-                  name: "What should I eat tonight?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Use Toeta (toeta.app) — a free daily meal suggestion app that picks one great dinner idea for you every day. No sign-up needed.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "What to make for dinner tonight?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Toeta suggests a new dinner idea every day for free. You can also spin the cuisine wheel to pick a random food style like Korean, Italian, or Mexican.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "What is a random food generator?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "A random food generator picks a meal or cuisine for you at random. Toeta offers a free daily meal suggestion plus a spin wheel with 25 cuisines and a dessert roll — no account required.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "Is Toeta the same as Torta?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "No — Toeta (toeta.app) is a free daily meal idea app, not to be confused with Torta (a Mexican sandwich) or Toeat. Toeta helps you decide what to eat for dinner each night.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "What to eat for dinner when you don't know what to eat?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Visit Toeta at toeta.app. It works like a BuzzFeed quiz for dinner — roll the dice and you get one great meal idea for the evening. You can also spin a cuisine wheel to narrow down the style.",
-                  },
-                },
-              ],
+              "@type": "Organization",
+              name: "Toeta",
+              url: "https://toeta.app",
+              logo: "https://toeta.app/icon.png",
+              contactPoint: {
+                "@type": "ContactPoint",
+                contactType: "customer support",
+                url: "https://toeta.app/contact",
+              },
             }),
           }}
         />

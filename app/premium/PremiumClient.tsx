@@ -85,21 +85,21 @@ export default function PremiumClient({ user, isPremium }: Props) {
           <span>🥗</span>
           <div>
             <strong>Diet profiles</strong>
-            <p>Vegetarian, vegan, gluten-free, and more — coming soon.</p>
+            <p>Vegetarian, vegan, keto, paleo, pescetarian, whole30 — your meals, your rules.</p>
           </div>
         </div>
         <div className={styles.feature}>
           <span>⚠️</span>
           <div>
             <strong>Allergen filters</strong>
-            <p>Never see a meal with your allergens — coming soon.</p>
+            <p>Set your allergens once. Never see a meal that conflicts with them again.</p>
           </div>
         </div>
         <div className={styles.feature}>
-          <span>💰</span>
+          <span>🥘</span>
           <div>
-            <strong>Budget-friendly mode</strong>
-            <p>Meals matched to what you can spend — coming soon.</p>
+            <strong>Pantry mode</strong>
+            <p>Cook from what you already have and reduce food waste — coming soon.</p>
           </div>
         </div>
       </section>

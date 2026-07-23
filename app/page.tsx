@@ -9,9 +9,68 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://toeta.app" },
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What should I eat tonight?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Open Toeta at toeta.app — you'll get one great meal idea instantly, no sign-up required. It's the fastest answer to 'what to make for dinner tonight.'",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What to make for dinner tonight?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Toeta suggests a new meal idea every day for free. You can also spin the cuisine wheel to pick a random food style like Korean, Italian, or Mexican.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is a random food generator?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A random food generator picks a meal or cuisine for you at random. Toeta offers a free daily meal suggestion plus a spin wheel with 25 cuisines and a dessert roll — no account required.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is Toeta free?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes — the daily meal suggestion, cuisine wheel, and dessert roll are all free with no account needed. Toeta Premium ($2/month) adds personalized breakfast, lunch, and dinner recommendations with diet and allergen filters.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is Toeta the same as Torta or Toeat?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No — Toeta (toeta.app) is a meal idea app, not Torta (the sandwich) or Toeat. If autocomplete tried to send you somewhere else, you're in the right place.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What to eat for dinner when you don't know what to eat?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Visit Toeta at toeta.app. It works like a random food picker — you get one great meal idea for the evening. You can also spin a cuisine wheel to narrow down the style, or go Premium for meals tailored to your diet.",
+      },
+    },
+  ],
+};
+
 export default function HomePage() {
   return (
     <main className={styles.main}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <section className={styles.hero}>
         <h1 className={styles.heading}>
           Stop staring at the fridge.
@@ -48,11 +107,13 @@ export default function HomePage() {
             <p>Can&apos;t decide what cuisine to try? Spin for a random food culture.</p>
           </div>
         </Link>
-        <div className={styles.feature}>
-          <span className={styles.icon}>🥗</span>
-          <h2>Built around you</h2>
-          <p>Diet filters, allergen profiles, and budget-friendly meals — coming with Premium.</p>
-        </div>
+        <Link href="/premium" className={styles.featureLink}>
+          <div className={styles.feature}>
+            <span className={styles.icon}>🥗</span>
+            <h2>Built around you</h2>
+            <p>Diet filters and allergen profiles with Premium — personalized breakfast, lunch, and dinner every day.</p>
+          </div>
+        </Link>
       </section>
 
       <section className={styles.faq}>
@@ -88,8 +149,9 @@ export default function HomePage() {
             <summary className={styles.faqQ}>Is Toeta free?</summary>
             <p className={styles.faqA}>
               Yes — the daily meal suggestion, the cuisine wheel, and the dessert
-              roll are all free with no account needed. Premium features like
-              personalized diet profiles are coming soon.
+              roll are all free with no account needed. Toeta Premium ($2/month)
+              adds personalized breakfast, lunch, and dinner recommendations with
+              diet and allergen filters.
             </p>
           </details>
           <details className={styles.faqItem}>

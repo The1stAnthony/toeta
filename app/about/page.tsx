@@ -54,16 +54,27 @@ export default function AboutPage() {
             as opposed to making the same things every day, and answers the
             question of what you should eat this week.
           </p>
+          <p>
+            The name isn&apos;t random. Toeta is a combination of "To Eat"! And in Estonian, <em>toeta</em> is a verb that
+            means &ldquo;to support, to back, or to prop up.&rdquo; That&apos;s exactly what
+            this app is here to do — we support you in making your next meal decision when your
+            brain won&apos;t.
+          </p>
         </section>
 
         <section className={styles.section}>
-          <h2>What&apos;s Coming</h2>
+          <h2>What&apos;s Live</h2>
           <p>
-            With premium features in the making, we are looking to create an
-            application tied to your dietary requirements, allergen sensitive, and
-            budget-friendly meals — while helping you use what&apos;s already in your
-            cabinets to reduce food waste. We are blessed to have the ability to
-            explore our food, so let&apos;s not waste it.
+            Premium members get personalized breakfast, lunch, and dinner
+            suggestions every day — filtered to their diet and allergens, with
+            a per-meal re-roll. The cuisine spin wheel and dessert roll are free
+            for everyone, no account needed.
+          </p>
+          <p>
+            On the horizon: pantry mode, where Toeta helps you cook from what
+            you already have — reducing food waste one cabinet at a time.
+            We are blessed to have the ability to explore our food, so let&apos;s
+            not waste it.
           </p>
         </section>
 

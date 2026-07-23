@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <LegalPage title="Terms of Service" updated="July 21, 2026">
+    <LegalPage title="Terms of Service" updated="July 23, 2026">
 
       <section>
         <h2>Acceptance</h2>
@@ -22,8 +22,8 @@ export default function TermsPage() {
       <section>
         <h2>What Toeta Is</h2>
         <p>
-          Toeta is a free meal suggestion service. It picks a random dinner idea
-          for you each day using data from TheMealDB. It is provided for personal,
+          Toeta is a food inspiration service. It suggests meal ideas to spark
+          your creativity in the kitchen. It is provided for personal,
           non-commercial use. It is not a nutritional service and is not a
           substitute for professional dietary advice.
         </p>
@@ -32,15 +32,39 @@ export default function TermsPage() {
       <section>
         <h2>Recipe Data</h2>
         <p>
-          Recipe content is sourced from{" "}
-          <a href="https://www.themealdb.com" target="_blank" rel="noopener noreferrer">
-            TheMealDB
-          </a>
-          , a third-party database. Toeta does not author, curate, or verify
-          individual recipes. We are not responsible for the accuracy,
-          completeness, or safety of any recipe. Always use common sense when
-          preparing food, especially for guests with allergies or dietary
-          restrictions.
+          Recipe content is sourced from third-party databases and APIs. Toeta
+          does not author, curate, or independently verify individual recipes.
+          Recipe data is provided &ldquo;as is&rdquo; and may contain errors, omissions,
+          or inaccuracies. We are not responsible for the accuracy, completeness,
+          or safety of any recipe or ingredient list.
+        </p>
+      </section>
+
+      <section>
+        <h2>Food Safety &amp; Allergen Responsibility</h2>
+        <p>
+          <strong>You are solely responsible for everything you consume and
+          prepare.</strong> Recipe ingredient lists are sourced from third
+          parties and may be incomplete, incorrectly labeled, or out of date.
+          Dietary preference filters (such as allergen exclusions) are applied
+          on a best-effort basis and are <strong>not a guarantee of allergen
+          safety</strong>.
+        </p>
+        <p>
+          Before preparing or consuming any recipe suggested by Toeta, you must:
+        </p>
+        <ul>
+          <li>Read the full ingredient list carefully.</li>
+          <li>Verify that no ingredient triggers an allergy or intolerance you
+          or your guests have.</li>
+          <li>Consult a qualified healthcare professional or registered
+          dietitian if you have serious dietary requirements or medical
+          conditions.</li>
+        </ul>
+        <p>
+          Toeta makes no warranty that suggested meals are free from any
+          allergen. Do not rely solely on Toeta&rsquo;s filters as a substitute
+          for your own due diligence.
         </p>
       </section>
 

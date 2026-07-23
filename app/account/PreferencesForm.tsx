@@ -73,7 +73,7 @@ export default function PreferencesForm({ userId, initialDiet, initialAllergens 
     <div className={styles.preferences}>
       <h2 className={styles.prefHeading}>Meal Preferences</h2>
       <p className={styles.prefNote}>
-        These filters apply to your premium meals via Spoonacular. Changes take effect on your next dashboard visit.
+        These filters apply to your premium meal suggestions. Changes take effect on your next dashboard visit.
       </p>
 
       <div className={styles.prefGroup}>
