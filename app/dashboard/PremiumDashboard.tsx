@@ -214,6 +214,8 @@ export default function PremiumDashboard({ diet, allergens, premiumSuccess }: Pr
         </svg>
       </div>
 
+      <p className={styles.memberThanks}>Thank you for being a member. ⭐</p>
+
       <Link href="/wheel" className={styles.wheelBtn}>
         🎡 Not feeling it?
       </Link>

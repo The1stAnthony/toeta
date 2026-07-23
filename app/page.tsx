@@ -50,7 +50,7 @@ const faqSchema = {
       name: "Is Toeta the same as Torta or Toeat?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "No — Toeta (toeta.app) is a meal idea app, not Torta (the sandwich) or Toeat. If autocomplete tried to send you somewhere else, you're in the right place.",
+        text: "No — Toeta (toeta.app) is a meal idea app, not Torta (the sandwich) or Toeat. If autocomplete tried to send you somewhere else, verify you meant Toeta — you're in the right place.",
       },
     },
     {
@@ -158,7 +158,7 @@ export default function HomePage() {
             <summary className={styles.faqQ}>Is this the same as Torta or Toeat?</summary>
             <p className={styles.faqA}>
               Nope. Toeta (toeta.app) is a meal idea app, not Torta (the sandwich)
-              or Toeat. If autocomplete tried to send you somewhere else, you&apos;re
+              or Toeat. If autocomplete tried to send you somewhere else confirm you meant Toeta because you&apos;re
               in the right place.
             </p>
           </details>

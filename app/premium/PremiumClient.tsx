@@ -163,6 +163,15 @@ export default function PremiumClient({ user, isPremium }: Props) {
       </section>
 
       <p className={styles.cancel}>Cancel anytime. No hidden fees.</p>
+
+      <div className={styles.termsReminder}>
+        <p>
+          Before you subscribe — Remember to read our{" "}
+          <Link href="/terms" className={styles.termsLink}>
+            Terms of Service.
+          </Link>
+        </p>
+      </div>
     </main>
   );
 }

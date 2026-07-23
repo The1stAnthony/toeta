@@ -29,7 +29,7 @@ export default function AboutPage() {
       <div className={styles.body}>
         <section className={styles.section}>
           <p>
-            For those of you who don&apos;t know me, I&apos;m Anthony — a solutions
+            Hi Chefs!For those of you who don&apos;t know me, I&apos;m Anthony — a solutions
             architect with a variety of talents and one core drive: creating
             solutions to real problems. I love to help people. I learn things the
             hard way so that you don&apos;t have to. I most often do this by
@@ -41,7 +41,7 @@ export default function AboutPage() {
         <section className={styles.section}>
           <h2>Why Toeta?</h2>
           <p>
-            I created Toeta 5 years ago in college, when I was trying to figure
+            I created Toeta almost 6 years ago in college, when I was trying to figure
             out what to eat. Before generative AI. And even now with generative
             AI, the options tend to be the same six suggestions, with random
             ingredients like potatoes added to the shopping list. I wanted to
@@ -55,8 +55,8 @@ export default function AboutPage() {
             question of what you should eat this week.
           </p>
           <p>
-            The name isn&apos;t random. Toeta is a combination of "To Eat"! And in Estonian, <em>toeta</em> is a verb that
-            means &ldquo;to support, to back, or to prop up.&rdquo; That&apos;s exactly what
+            The name isn&apos;t <i>that</i> random. Toeta is a combination of the words "To" and "Eat"! In Estonian, <em>toeta</em> is a verb that
+            means &ldquo;to support, to back, or to prop up.&rdquo; And that&apos;s exactly what
             this app is here to do — we support you in making your next meal decision when your
             brain won&apos;t.
           </p>
@@ -65,13 +65,13 @@ export default function AboutPage() {
         <section className={styles.section}>
           <h2>What&apos;s Live</h2>
           <p>
-            Premium members get personalized breakfast, lunch, and dinner
-            suggestions every day — filtered to their diet and allergens, with
-            a per-meal re-roll. The cuisine spin wheel and dessert roll are free
-            for everyone, no account needed.
+            Premium members get multiple personalized meal suggestions every day
+             — filtered to their diet and allergens, with a per-meal re-roll.
+            The cuisine spin wheel and dessert roll are free for everyone, no account needed.
           </p>
           <p>
-            On the horizon: pantry mode, where Toeta helps you cook from what
+            On the horizon: calorie considerations, the ability to share your grandma's recipes, 
+            and pantry mode, where Toeta helps you cook from what
             you already have — reducing food waste one cabinet at a time.
             We are blessed to have the ability to explore our food, so let&apos;s
             not waste it.
@@ -88,14 +88,19 @@ export default function AboutPage() {
             ecosystems and economic systems by giving too much food that the
             region doesn&apos;t need, killing their farms.
           </p>
+          <p>
+            Join the Kitchen! Being classified as a Toeta founding member, you'll have 
+            early access to new features and the chance to shape the future of the app, 
+            and be locked in at $2/ month for life. Want to support without subscribing? 
+            Click the Buy me a coffee link in the footer! Or contact us on other ways to support.
+          </p>
         </section>
 
         <section className={styles.cta}>
           <h2 className={styles.ctaHeading}>We need 100 members.</h2>
           <p className={styles.ctaSub}>
-            This will show proof of concept for the website, and so long as we
-            have this number, we can keep Toeta alive indefinitely. If this is a
-            tool you love, please consider supporting it.
+            This will cover our overhead costs so that we can keep Toeta
+            alive indefinitely. If this is a tool you love, please consider supporting it.
           </p>
           <div className={styles.pricing}>
             <div className={styles.priceCard}>
