@@ -52,19 +52,26 @@ export default function SignupForm() {
       router.push(next);
       router.refresh();
     } else {
-      const { data, error: sbError } = await supabase.auth.signUp({ email, password });
+      // Server-side signup — creates user as already confirmed, inserts profile row
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-      console.log("[signUp] data:", data);
-      console.log("[signUp] error:", sbError);
+      const result = (await res.json()) as { success?: boolean; error?: string };
 
-      if (sbError) {
-        setError(sbError.message);
+      if (!res.ok || !result.success) {
+        setError(result.error ?? "Could not create account. Please try again.");
         setLoading(false);
         return;
       }
 
-      if (!data.user) {
-        setError("Account could not be created. This email may already be registered.");
+      // Account created — sign in immediately
+      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (signInError) {
+        setError(signInError.message);
         setLoading(false);
         return;
       }
