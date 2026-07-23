@@ -1,11 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Meal } from "@/types/meal";
 import MealCard from "@/components/MealCard/MealCard";
 import DiceLoader from "@/components/DiceLoader/DiceLoader";
 import { playMealReady } from "@/lib/audio";
 import styles from "./DessertRoll.module.scss";
+
+function dessertCacheKey() {
+  return `toeta-meal-dessert-${new Date().toISOString().slice(0, 10)}`;
+}
 
 interface Props {
   diet?: string;
@@ -17,6 +21,17 @@ export default function DessertRoll({ diet, allergens }: Props = {}) {
   const [loading, setLoading] = useState(false);
   const [rolled, setRolled] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Restore today's dessert from cache on mount
+  useEffect(() => {
+    const cached = localStorage.getItem(dessertCacheKey());
+    if (cached) {
+      try {
+        setDessert(JSON.parse(cached) as Meal);
+        setRolled(true);
+      } catch {}
+    }
+  }, []);
 
   async function roll() {
     setLoading(true);
@@ -41,6 +56,7 @@ export default function DessertRoll({ diet, allergens }: Props = {}) {
       // TheMealDB returns { meal, dessert } — prefer dessert. Spoonacular returns { meal } only.
       const result = data.dessert ?? data.meal ?? null;
       if (!result) throw new Error("No dessert returned");
+      localStorage.setItem(dessertCacheKey(), JSON.stringify(result));
       setDessert(result);
       setRolled(true);
       playMealReady();

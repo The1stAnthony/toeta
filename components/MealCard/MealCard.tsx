@@ -41,7 +41,7 @@ export default function MealCard({ meal, label = "Today's Meal", onReroll, rerol
 
         <div className={styles.meta}>
           <span className={styles.tag}>{meal.category}</span>
-          <span className={styles.tag}>{meal.area}</span>
+          {meal.area && <span className={styles.tag}>{meal.area}</span>}
         </div>
 
         <details className={styles.ingredients}>

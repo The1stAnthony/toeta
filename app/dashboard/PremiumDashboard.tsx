@@ -25,6 +25,19 @@ function rerollKey(type: MealType) {
   return `toeta-rerolled-${type}-${new Date().toISOString().slice(0, 10)}`;
 }
 
+function getSeenIds(type: MealType): string[] {
+  try {
+    return JSON.parse(localStorage.getItem(`toeta-history-${type}`) ?? "[]") as string[];
+  } catch { return []; }
+}
+
+function recordSeenId(type: MealType, id: string) {
+  const seen = getSeenIds(type);
+  if (seen.includes(id)) return;
+  const updated = [...seen, id].slice(-50); // cap at 50 entries
+  localStorage.setItem(`toeta-history-${type}`, JSON.stringify(updated));
+}
+
 // ── Per-card meal hook ────────────────────────────────────────────────────────
 
 function usePremiumMeal(type: MealType, diet?: string, allergens?: string) {
@@ -41,12 +54,15 @@ function usePremiumMeal(type: MealType, diet?: string, allergens?: string) {
     const params = new URLSearchParams({ type });
     if (diet) params.set("diet", diet);
     if (allergens) params.set("intolerances", allergens);
+    const seenIds = getSeenIds(type);
+    if (seenIds.length) params.set("exclude", seenIds.join(","));
 
     try {
       const res = await fetch(`/api/meal?${params}`);
       if (!res.ok) throw new Error();
       const data = (await res.json()) as { meal: Meal };
       localStorage.setItem(todayKey(type), JSON.stringify(data.meal));
+      recordSeenId(type, data.meal.id);
       setMeal(data.meal);
       if (!isReroll) playMealReady();
     } catch {

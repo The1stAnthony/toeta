@@ -45,12 +45,14 @@ function capitalize(s: string | undefined): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-function toMealFromSpoonacular(recipe: SpoonacularRecipe): Meal {
+function toMealFromSpoonacular(recipe: SpoonacularRecipe, requestedType: string): Meal {
   return {
     id: String(recipe.id),
     name: recipe.title,
-    category: capitalize(recipe.dishTypes?.[0]) || "Meal",
-    area: capitalize(recipe.cuisines?.[0]) || "International",
+    // Use the requested meal type — Spoonacular's dishTypes[0] is "lunch" for almost
+    // everything, which makes all three cards show the same tag.
+    category: capitalize(requestedType),
+    area: capitalize(recipe.cuisines?.[0]) || (recipe.readyInMinutes ? `${recipe.readyInMinutes} min` : ""),
     instructions: recipe.instructions ?? "",
     imageUrl: recipe.image ?? "",
     sourceUrl: recipe.sourceUrl ?? "",
@@ -67,7 +69,8 @@ function toMealFromSpoonacular(recipe: SpoonacularRecipe): Meal {
 async function fetchSpoonacularMeal(
   mealType: string,
   diet?: string,
-  intolerances?: string
+  intolerances?: string,
+  excludeIds?: string[]
 ): Promise<Meal> {
   const key = process.env.SPOONACULAR_API_KEY;
   if (!key) throw new Error("SPOONACULAR_API_KEY not configured");
@@ -75,7 +78,7 @@ async function fetchSpoonacularMeal(
   const params = new URLSearchParams({
     apiKey: key,
     mealType,
-    number: "10",
+    number: "20",
     addRecipeInformation: "true",
     instructionsRequired: "true",
     fillIngredients: "true",
@@ -103,8 +106,16 @@ async function fetchSpoonacularMeal(
   const data = (await res.json()) as SpoonacularSearchResponse;
   if (!data.results.length) throw new Error("No recipes found for these preferences");
 
-  const pick = data.results[Math.floor(Math.random() * data.results.length)];
-  return toMealFromSpoonacular(pick);
+  // Prefer recipes not seen before; fall back to full pool if all 20 are in history
+  let candidates = data.results;
+  if (excludeIds?.length) {
+    const excluded = new Set(excludeIds);
+    const fresh = candidates.filter((r) => !excluded.has(String(r.id)));
+    if (fresh.length > 0) candidates = fresh;
+  }
+
+  const pick = candidates[Math.floor(Math.random() * candidates.length)];
+  return toMealFromSpoonacular(pick, mealType);
 }
 
 // ── Route handler ────────────────────────────────────────────────────────────
@@ -117,11 +128,10 @@ export async function GET(req: NextRequest) {
   if (type === "breakfast" || type === "lunch" || type === "dinner" || type === "dessert") {
     const diet = searchParams.get("diet") ?? undefined;
     const intolerances = searchParams.get("intolerances") ?? undefined;
-    // Spoonacular uses "maincourse" for dinner
-    const spoonacularType = type === "dinner" ? "maincourse" : type;
+    const excludeIds = searchParams.get("exclude")?.split(",").filter(Boolean) ?? [];
 
     try {
-      const meal = await fetchSpoonacularMeal(spoonacularType, diet, intolerances);
+      const meal = await fetchSpoonacularMeal(type, diet, intolerances, excludeIds);
       return NextResponse.json({ meal });
     } catch (err) {
       if (err instanceof Error && err.message.includes("SPOONACULAR_API_KEY")) {
