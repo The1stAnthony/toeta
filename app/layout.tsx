@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import Nav from "@/components/Nav/Nav";
 import Footer from "@/components/Footer/Footer";
+import { getUserAndProfile } from "@/lib/supabase/user";
 import "@/styles/globals.scss";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? "";
@@ -79,16 +80,20 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const { isPremium } = await getUserAndProfile();
+
   return (
     <html lang="en">
       <head>
-        {/* AdSense */}
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5976607298154940"
-          crossOrigin="anonymous"
-        />
+        {/* AdSense — hidden for premium users (blocks Auto ads too) */}
+        {!isPremium && (
+          <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5976607298154940"
+            crossOrigin="anonymous"
+          />
+        )}
         {/* Structured data — WebApplication */}
         <script
           type="application/ld+json"

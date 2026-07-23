@@ -1,0 +1,29 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import styles from "./account.module.scss";
+
+export default function SignOutButton() {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  async function handleSignOut() {
+    setLoading(true);
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/");
+    router.refresh();
+  }
+
+  return (
+    <button
+      className={styles.signOutBtn}
+      onClick={handleSignOut}
+      disabled={loading}
+    >
+      {loading ? "Signing out…" : "Sign out"}
+    </button>
+  );
+}

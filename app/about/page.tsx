@@ -98,7 +98,7 @@ export default function AboutPage() {
               <span className={styles.priceSavings}>2 months free</span>
             </div>
           </div>
-          <Link href="/signup" className={styles.ctaBtn}>
+          <Link href="/premium" className={styles.ctaBtn}>
             Join the founding 100
           </Link>
         </section>

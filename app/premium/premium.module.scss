@@ -1,0 +1,231 @@
+.main {
+  min-height: 80vh;
+  padding: 3rem 1.5rem 5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.heroHeading {
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-text);
+  margin-bottom: 0.75rem;
+}
+
+.heroSub {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.feature {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 1.25rem;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+
+  > span {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  strong {
+    display: block;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.25rem;
+  }
+
+  p {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+.error {
+  color: #dc2626;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background: #fef2f2;
+  border-radius: var(--radius-sm);
+  border: 1px solid #fecaca;
+}
+
+.plans {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.planCard {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 2rem 2.5rem;
+  min-width: 220px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.planCardFeatured {
+  border: 2px solid var(--color-primary);
+}
+
+.planBadge {
+  position: absolute;
+  top: -0.75rem;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.planName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.planPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+}
+
+.amount {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.per {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+}
+
+.planSavings {
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  margin: 0;
+}
+
+.planCta {
+  display: inline-block;
+  width: 100%;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  text-align: center;
+
+  &:hover:not(:disabled) {
+    background: var(--color-primary-dark);
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+}
+
+.cancel {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+/* Already premium / sign-in card */
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 3rem 2.5rem;
+  max-width: 480px;
+  margin: 4rem auto 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.icon {
+  font-size: 3rem;
+}
+
+.heading {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.sub {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+.cta {
+  margin-top: 0.5rem;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: var(--color-primary-dark);
+  }
+}
+
+.textBtn {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}

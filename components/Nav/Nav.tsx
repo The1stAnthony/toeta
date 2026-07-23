@@ -1,8 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
+import { getUserAndProfile } from "@/lib/supabase/user";
 import styles from "./Nav.module.scss";
 
-export default function Nav() {
+export default async function Nav() {
+  const { user, isPremium } = await getUserAndProfile();
+
   return (
     <nav className={styles.nav} aria-label="Main navigation">
       <Link href="/" className={styles.logo}>
@@ -15,7 +18,18 @@ export default function Nav() {
         <Link href="/dashboard" className={styles.link}>Today&apos;s Meal</Link>
         <Link href="/wheel" className={styles.link}>Spin the Wheel</Link>
         <Link href="/about" className={styles.link}>About</Link>
-        <Link href="/signup" className={styles.cta}>Go Premium</Link>
+        {user ? (
+          <>
+            {!isPremium && (
+              <Link href="/premium" className={styles.cta}>Go Premium</Link>
+            )}
+            <Link href="/account" className={styles.link}>
+              {isPremium ? "⭐ Account" : "Account"}
+            </Link>
+          </>
+        ) : (
+          <Link href="/signup" className={styles.cta}>Go Premium</Link>
+        )}
       </div>
     </nav>
   );

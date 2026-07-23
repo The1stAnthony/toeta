@@ -1,25 +1,19 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Suspense } from "react";
+import SignupForm from "./SignupForm";
 import styles from "./signup.module.scss";
 
 export const metadata: Metadata = {
-  title: "Premium Coming Soon | Toeta",
-  description: "Personalized diet profiles, allergen filters, and budget-friendly meal suggestions — coming soon to Toeta.",
+  title: "Sign In | Toeta",
+  description: "Sign in to Toeta with a magic link — no password needed. Unlock premium features.",
 };
 
 export default function SignupPage() {
   return (
     <main className={styles.main}>
-      <div className={styles.card}>
-        <span className={styles.icon}>🔒</span>
-        <h1 className={styles.heading}>Premium Features Coming Soon.</h1>
-        <p className={styles.sub}>
-          Personalised diet profiles, allergen filters, and unlimited rolls are on the way.
-        </p>
-        <Link href="/dashboard" className={styles.cta}>
-          Try it free!
-        </Link>
-      </div>
+      <Suspense>
+        <SignupForm />
+      </Suspense>
     </main>
   );
 }
