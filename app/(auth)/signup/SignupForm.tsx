@@ -52,10 +52,19 @@ export default function SignupForm() {
       router.push(next);
       router.refresh();
     } else {
-      const { error: sbError } = await supabase.auth.signUp({ email, password });
+      const { data, error: sbError } = await supabase.auth.signUp({ email, password });
+
+      console.log("[signUp] data:", data);
+      console.log("[signUp] error:", sbError);
 
       if (sbError) {
         setError(sbError.message);
+        setLoading(false);
+        return;
+      }
+
+      if (!data.user) {
+        setError("Account could not be created. This email may already be registered.");
         setLoading(false);
         return;
       }
