@@ -19,7 +19,6 @@ export default function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [confirmed, setConfirmed] = useState(false);
 
   function switchMode(m: Mode) {
     setMode(m);
@@ -53,13 +52,7 @@ export default function SignupForm() {
       router.push(next);
       router.refresh();
     } else {
-      const { error: sbError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/api/auth/callback?next=${encodeURIComponent(next)}`,
-        },
-      });
+      const { error: sbError } = await supabase.auth.signUp({ email, password });
 
       if (sbError) {
         setError(sbError.message);
@@ -67,24 +60,9 @@ export default function SignupForm() {
         return;
       }
 
-      setConfirmed(true);
-      setLoading(false);
+      router.push(next);
+      router.refresh();
     }
-  }
-
-  if (confirmed) {
-    return (
-      <div className={styles.card}>
-        <span className={styles.icon}>📬</span>
-        <h1 className={styles.heading}>Check your email</h1>
-        <p className={styles.sub}>
-          We sent a confirmation link to <strong>{email}</strong>. Click it to activate your account.
-        </p>
-        <button className={styles.textBtn} onClick={() => setConfirmed(false)}>
-          Use a different email
-        </button>
-      </div>
-    );
   }
 
   const inputType = showPassword ? "text" : "password";
