@@ -15,22 +15,34 @@ export default function SignupForm() {
   const [mode, setMode] = useState<Mode>("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState(false);
 
+  function switchMode(m: Mode) {
+    setMode(m);
+    setError(null);
+    setPassword("");
+    setConfirmPassword("");
+    setShowPassword(false);
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true);
     setError(null);
 
+    if (mode === "signup" && password !== confirmPassword) {
+      setError("Passwords don't match.");
+      return;
+    }
+
+    setLoading(true);
     const supabase = createClient();
 
     if (mode === "signin") {
-      const { error: sbError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { error: sbError } = await supabase.auth.signInWithPassword({ email, password });
 
       if (sbError) {
         setError(sbError.message);
@@ -75,6 +87,8 @@ export default function SignupForm() {
     );
   }
 
+  const inputType = showPassword ? "text" : "password";
+
   return (
     <div className={styles.card}>
       <span className={styles.icon}>✨</span>
@@ -99,23 +113,53 @@ export default function SignupForm() {
         />
 
         <label className={styles.srOnly} htmlFor="password">Password</label>
-        <input
-          id="password"
-          className={styles.input}
-          type="password"
-          placeholder={mode === "signup" ? "Create a password" : "Password"}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          autoComplete={mode === "signin" ? "current-password" : "new-password"}
-          minLength={mode === "signup" ? 8 : undefined}
-          disabled={loading}
-        />
+        <div className={styles.passwordWrapper}>
+          <input
+            id="password"
+            className={styles.input}
+            type={inputType}
+            placeholder={mode === "signup" ? "Create a password (8+ chars)" : "Password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            autoComplete={mode === "signin" ? "current-password" : "new-password"}
+            minLength={mode === "signup" ? 8 : undefined}
+            disabled={loading}
+          />
+          <button
+            type="button"
+            className={styles.showBtn}
+            onClick={() => setShowPassword((v) => !v)}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? "Hide" : "Show"}
+          </button>
+        </div>
+
+        {mode === "signup" && (
+          <>
+            <label className={styles.srOnly} htmlFor="confirmPassword">Confirm password</label>
+            <div className={styles.passwordWrapper}>
+              <input
+                id="confirmPassword"
+                className={styles.input}
+                type={inputType}
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                autoComplete="new-password"
+                minLength={8}
+                disabled={loading}
+              />
+            </div>
+          </>
+        )}
 
         <button
           type="submit"
           className={styles.cta}
-          disabled={loading || !email || !password}
+          disabled={loading || !email || !password || (mode === "signup" && !confirmPassword)}
         >
           {loading
             ? mode === "signin" ? "Signing in…" : "Creating account…"
@@ -125,7 +169,7 @@ export default function SignupForm() {
 
       <button
         className={styles.textBtn}
-        onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setError(null); }}
+        onClick={() => switchMode(mode === "signin" ? "signup" : "signin")}
       >
         {mode === "signin" ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
       </button>

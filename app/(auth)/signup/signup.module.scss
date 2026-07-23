@@ -68,6 +68,30 @@
   width: 100%;
 }
 
+.passwordWrapper {
+  position: relative;
+  width: 100%;
+
+  .input {
+    padding-right: 4.5rem;
+  }
+}
+
+.showBtn {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
 .input {
   width: 100%;
   padding: 0.75rem 1rem;
