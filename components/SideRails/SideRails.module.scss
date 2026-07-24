@@ -1,0 +1,27 @@
+// Side rails appear only when the viewport is wide enough to clear the
+// 1100px content column plus a gap on each side.
+// At 1460px: 50% = 730px, left rail left edge = 730 - 730 = 0 (just fits)
+// At 1600px: 50% = 800px, left rail left edge = 800 - 730 = 70px (comfortable)
+
+.leftRail,
+.rightRail {
+  position: fixed;
+  top: 80px; // clear the nav bar
+  z-index: 15; // above page content, below nav (z:100), below cookie banner (z:1000)
+  width: 160px;
+
+  @media (max-width: 1459px) {
+    display: none;
+  }
+}
+
+.leftRail {
+  // Right edge of this rail = 50vw - 550px (half content) - 20px (gap)
+  // Left edge = right edge - 160px = 50vw - 730px
+  left: calc(50% - 730px);
+}
+
+.rightRail {
+  // Left edge = 50vw + 550px (half content) + 20px (gap)
+  left: calc(50% + 570px);
+}

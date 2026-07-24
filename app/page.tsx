@@ -47,6 +47,14 @@ const faqSchema = {
     },
     {
       "@type": "Question",
+      name: "What does \"toeta\" mean?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Toeta (pronounced toh-eh-tah) is an Estonian verb meaning \"to support,\" \"to back,\" or \"to prop up.\" The Toeta app takes its name from this word because it supports you in making your next meal decision when your brain won't. It's also a play on the phrase \"To Eat.\" Toeta.app is a free daily meal idea generator — not Toeta.ee (the Estonian charity portal) or Torta (the Mexican sandwich).",
+      },
+    },
+    {
+      "@type": "Question",
       name: "Is Toeta the same as Torta or Toeat?",
       acceptedAnswer: {
         "@type": "Answer",
@@ -152,6 +160,15 @@ export default function HomePage() {
               roll are all free with no account needed. Toeta Premium ($2/month)
               adds multiple personalized meal recommendations with
               diet and allergen filters.
+            </p>
+          </details>
+          <details className={styles.faqItem}>
+            <summary className={styles.faqQ}>What does &ldquo;toeta&rdquo; mean?</summary>
+            <p className={styles.faqA}>
+              Toeta (toh-eh-tah) is an Estonian verb meaning &ldquo;to support,&rdquo; &ldquo;to back,&rdquo; or &ldquo;to prop up.&rdquo;
+              This app is named Toeta because it supports you in making your next meal decision when your brain
+              won&apos;t. It&apos;s also a play on the phrase &ldquo;To Eat.&rdquo; If you were looking for Toeta.ee (the Estonian
+              charity portal) or Torta (the sandwich) — wrong Toeta, but great taste.
             </p>
           </details>
           <details className={styles.faqItem}>

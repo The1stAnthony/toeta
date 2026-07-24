@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Nav from "@/components/Nav/Nav";
 import Footer from "@/components/Footer/Footer";
 import CookieConsent from "@/components/CookieConsent/CookieConsent";
+import SideRails from "@/components/SideRails/SideRails";
 import { getUserAndProfile } from "@/lib/supabase/user";
 import "@/styles/globals.scss";
 
@@ -154,6 +155,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <a href="#main-content" className="skip-link">Skip to main content</a>
 
         <CookieConsent isPremium={isPremium} />
+        {!isPremium && <SideRails />}
         <Nav />
         <div id="main-content" tabIndex={-1} style={{ outline: "none" }}>
           {children}

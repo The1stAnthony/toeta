@@ -17,7 +17,7 @@ declare global {
 
 interface AdSlotProps {
   id: string;
-  size?: "banner" | "rectangle";
+  size?: "banner" | "rectangle" | "skyscraper";
   slotId?: string; // AdSense ad unit slot ID — get from AdSense dashboard
 }
 
@@ -38,6 +38,20 @@ export default function AdSlot({ id, size = "banner", slotId }: AdSlotProps) {
         <div className="ad-placeholder">
           <span>Ad</span>
         </div>
+      </div>
+    );
+  }
+
+  // Skyscraper (160×600) uses fixed dimensions — not responsive
+  if (size === "skyscraper") {
+    return (
+      <div className={`ad-slot ad-slot--${size}`} id={id} aria-label="Advertisement">
+        <ins
+          className="adsbygoogle"
+          style={{ display: "inline-block", width: "160px", height: "600px" }}
+          data-ad-client="ca-pub-5976607298154940"
+          data-ad-slot={slotId}
+        />
       </div>
     );
   }

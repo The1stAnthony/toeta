@@ -131,6 +131,13 @@ textarea {
   }
 }
 
+.ad-slot--skyscraper {
+  .ad-placeholder {
+    width: 160px;
+    height: 600px;
+  }
+}
+
 .ad-placeholder {
   background: var(--color-border);
   border-radius: var(--radius-sm);

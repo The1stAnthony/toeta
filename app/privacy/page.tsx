@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage/LegalPage";
+import AdPageConfig from "@/components/AdPageConfig/AdPageConfig";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -9,7 +10,9 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Privacy Policy" updated="July 23, 2026">
+    <>
+      <AdPageConfig anchorOnly />
+      <LegalPage title="Privacy Policy" updated="July 23, 2026">
 
       <section>
         <h2>Overview</h2>
@@ -258,5 +261,6 @@ export default function PrivacyPage() {
       </section>
 
     </LegalPage>
+    </>
   );
 }
