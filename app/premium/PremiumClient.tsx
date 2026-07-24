@@ -69,7 +69,7 @@ export default function PremiumClient({ user, isPremium }: Props) {
       <header className={styles.hero}>
         <h1 className={styles.heroHeading}>Upgrade to Toeta Premium</h1>
         <p className={styles.heroSub}>
-          Help keep Toeta alive — and unlock a better meal experience.
+          Personalized meals, zero ads, and dietary filters — built around how you actually eat.
         </p>
       </header>
 

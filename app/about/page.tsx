@@ -90,16 +90,17 @@ export default function AboutPage() {
           </p>
           <p>
             Join the Kitchen! Being classified as a Toeta founding member, you'll have 
-            early access to new features and the chance to shape the future of the app. Want to support without subscribing? 
+            priority access to new features as we build them, and a direct line to shape where the app goes next. Want to support without subscribing? 
             Click the Buy me a coffee link in the footer! Or contact us on other ways to support.
           </p>
         </section>
 
         <section className={styles.cta}>
-          <h2 className={styles.ctaHeading}>We need 100 members.</h2>
+          <h2 className={styles.ctaHeading}>Become a Founding Member.</h2>
           <p className={styles.ctaSub}>
-            This will cover our overhead costs so that we can keep Toeta
-            alive indefinitely. If this is a tool you love, please consider supporting it.
+            Founding members keep Toeta independent and growing. For less than
+            a coffee a month, you get a personalized meal experience — and an
+            early spot in a community of people who eat curiously.
           </p>
           <div className={styles.pricing}>
             <div className={styles.priceCard}>
@@ -114,7 +115,7 @@ export default function AboutPage() {
             </div>
           </div>
           <Link href="/premium" className={styles.ctaBtn}>
-            Join the founding 100
+            Become a founding member
           </Link>
         </section>
       </div>
