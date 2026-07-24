@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "./about.module.scss";
 
 export const metadata: Metadata = {
-  title: "About Toeta | Anthony Sean Protho",
+  title: "About — Anthony Sean Protho",
   description:
     "Toeta was built 5 years ago in college by Anthony Sean Protho to solve one simple problem: figuring out what to eat. Here's the story.",
   alternates: { canonical: "https://toeta.app/about" },
@@ -29,7 +29,7 @@ export default function AboutPage() {
       <div className={styles.body}>
         <section className={styles.section}>
           <p>
-            Hi Chefs!For those of you who don&apos;t know me, I&apos;m Anthony — a solutions
+            Hi Chefs! For those of you who don&apos;t know me, I&apos;m Anthony — a solutions
             architect with a variety of talents and one core drive: creating
             solutions to real problems. I love to help people. I learn things the
             hard way so that you don&apos;t have to. I most often do this by

@@ -155,7 +155,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
         <CookieConsent isPremium={isPremium} />
         <Nav />
-        <div id="main-content" tabIndex={-1}>
+        <div id="main-content" tabIndex={-1} style={{ outline: "none" }}>
           {children}
         </div>
         <Footer />

@@ -36,9 +36,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Could not create account" }, { status: 500 });
   }
 
-  const { error: profileError } = await admin.from("profiles").insert({ id: user.id });
+  // Use upsert: Supabase's on_auth_user_created trigger may have already inserted
+  // the profile row. A plain insert would fail with a duplicate key error,
+  // causing the signup route to delete the user it just created.
+  const { error: profileError } = await admin
+    .from("profiles")
+    .upsert({ id: user.id, email }, { onConflict: "id" });
   if (profileError) {
-    console.error("[auth/signup] Profile insert failed:", profileError.message);
+    console.error("[auth/signup] Profile upsert failed:", profileError.message);
     await admin.auth.admin.deleteUser(user.id);
     return NextResponse.json({ error: "Could not create account. Please try again." }, { status: 500 });
   }

@@ -36,14 +36,26 @@ export async function POST(req: NextRequest) {
       const session = event.data.object as Stripe.Checkout.Session;
       const userId = session.metadata?.supabase_user_id;
       if (userId) {
-        await admin
+        // Only set subscribed_since on first subscription — preserve the original
+        // date on re-subscribe so the founding-member badge stays accurate.
+        const { data: existing } = await admin
           .from("profiles")
-          .update({
+          .select("subscribed_since")
+          .eq("id", userId)
+          .single();
+
+        if (!existing?.subscribed_since) {
+          await admin.from("profiles").update({
             is_premium: true,
-            subscribed_since: new Date().toISOString(),
             stripe_customer_id: session.customer as string,
-          })
-          .eq("id", userId);
+            subscribed_since: new Date().toISOString(),
+          }).eq("id", userId);
+        } else {
+          await admin.from("profiles").update({
+            is_premium: true,
+            stripe_customer_id: session.customer as string,
+          }).eq("id", userId);
+        }
       } else {
         console.error("[stripe/webhook] checkout.session.completed missing supabase_user_id — session:", session.id);
       }
@@ -71,9 +83,10 @@ export async function POST(req: NextRequest) {
 
     case "invoice.paid": {
       const invoice = event.data.object as Stripe.Invoice;
+      // Stripe SDK v22+ uses invoice.parent (Billing v2 model)
       const hasSubscription =
         invoice.parent?.type === "subscription_details" &&
-        invoice.parent.subscription_details?.subscription;
+        !!invoice.parent.subscription_details?.subscription;
       if (hasSubscription) {
         await admin
           .from("profiles")

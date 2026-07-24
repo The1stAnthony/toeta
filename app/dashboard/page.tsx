@@ -5,7 +5,7 @@ import DashboardLoading from "./loading";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Today's Meal | Toeta",
+  title: "Today's Meal",
   description: "Your free daily meal suggestion. One great dinner idea every day — no sign-up needed.",
   alternates: { canonical: "https://toeta.app/dashboard" },
 };

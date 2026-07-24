@@ -22,7 +22,7 @@ export async function generateMetadata({
   const cuisine = getCuisineBySlug(slug);
   if (!cuisine) return {};
   return {
-    title: `${cuisine.name} Food & Recipes | Toeta`,
+    title: `${cuisine.name} Food & Recipes`,
     description: `${cuisine.description.split(".")[0]}. Find ${cuisine.name} recipes and restaurants.`,
   };
 }
