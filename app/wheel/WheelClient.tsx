@@ -299,6 +299,8 @@ export default function WheelClient() {
           className={styles.canvas}
           role="img"
           aria-label="Cuisine spin wheel"
+          onClick={spin}
+          style={{ cursor: spinning ? "not-allowed" : "pointer" }}
         />
       </div>
 
