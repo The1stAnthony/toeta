@@ -11,18 +11,23 @@ function dessertCacheKey() {
   return `toeta-meal-dessert-${new Date().toISOString().slice(0, 10)}`;
 }
 
+function dessertRerollKey() {
+  return `toeta-rerolled-dessert-${new Date().toISOString().slice(0, 10)}`;
+}
+
 interface Props {
   diet?: string;
   allergens?: string;
+  isPremium?: boolean;
 }
 
-export default function DessertRoll({ diet, allergens }: Props = {}) {
+export default function DessertRoll({ diet, allergens, isPremium }: Props = {}) {
   const [dessert, setDessert] = useState<Meal | null>(null);
   const [loading, setLoading] = useState(false);
   const [rolled, setRolled] = useState(false);
+  const [rerolled, setRerolled] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Restore today's dessert from cache on mount
   useEffect(() => {
     const cached = localStorage.getItem(dessertCacheKey());
     if (cached) {
@@ -31,39 +36,48 @@ export default function DessertRoll({ diet, allergens }: Props = {}) {
         setRolled(true);
       } catch {}
     }
+    if (localStorage.getItem(dessertRerollKey())) setRerolled(true);
   }, []);
 
-  async function roll() {
+  async function roll(): Promise<boolean> {
     setLoading(true);
     setError(null);
 
     try {
       let url: string;
       if (diet || allergens) {
-        // Premium: use Spoonacular with user filters
         const params = new URLSearchParams({ type: "dessert" });
         if (diet) params.set("diet", diet);
         if (allergens) params.set("intolerances", allergens);
         url = `/api/meal?${params}`;
       } else {
-        // Free: use TheMealDB
         url = "/api/meal?dessert=true";
       }
 
       const res = await fetch(url);
       if (!res.ok) throw new Error("Failed to roll dessert");
       const data = await res.json() as { meal?: Meal; dessert?: Meal };
-      // TheMealDB returns { meal, dessert } — prefer dessert. Spoonacular returns { meal } only.
       const result = data.dessert ?? data.meal ?? null;
       if (!result) throw new Error("No dessert returned");
       localStorage.setItem(dessertCacheKey(), JSON.stringify(result));
       setDessert(result);
       setRolled(true);
       playMealReady();
+      return true;
     } catch {
       setError("Something went wrong. Try again!");
+      return false;
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleReroll() {
+    localStorage.removeItem(dessertCacheKey());
+    const success = await roll();
+    if (success) {
+      localStorage.setItem(dessertRerollKey(), "1");
+      setRerolled(true);
     }
   }
 
@@ -78,7 +92,12 @@ export default function DessertRoll({ diet, allergens }: Props = {}) {
   if (rolled && dessert) {
     return (
       <div className={styles.wrapper}>
-        <MealCard meal={dessert} label="Tonight's Dessert" />
+        <MealCard
+          meal={dessert}
+          label="Tonight's Dessert"
+          onReroll={isPremium ? handleReroll : undefined}
+          rerolled={isPremium ? rerolled : undefined}
+        />
       </div>
     );
   }
@@ -87,7 +106,7 @@ export default function DessertRoll({ diet, allergens }: Props = {}) {
     <div className={styles.wrapper}>
       <div className={styles.prompt}>
         <p>Feeling something sweet tonight?</p>
-        <button className={styles.rollBtn} onClick={roll}>
+        <button className={styles.rollBtn} onClick={() => roll()}>
           Roll for Dessert <span aria-hidden="true">🎲</span>
         </button>
         {error && <p className={styles.error} role="alert">{error}</p>}

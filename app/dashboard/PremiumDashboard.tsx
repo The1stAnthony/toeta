@@ -207,7 +207,7 @@ export default function PremiumDashboard({ diet, allergens, premiumSuccess }: Pr
       </div>
 
       <div className={styles.dessertSection}>
-        <DessertRoll diet={diet || undefined} allergens={allergens || undefined} />
+        <DessertRoll diet={diet || undefined} allergens={allergens || undefined} isPremium />
       </div>
 
       <div className={styles.wave}>
